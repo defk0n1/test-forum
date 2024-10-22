@@ -10,7 +10,13 @@ import {SupComLogo} from './SupComLogo'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { color } from 'three/webgpu'
 import Navbar from './Navbar'
-
+import Secops from './Secops'
+import ForumLogo from './ForumLogo'
+import LandingBody from './LandingBody'
+import LandingWrapper from './LandingWrapper'
+import HolographicMaterial from '../utils/HolographicMaterial.jsx'
+import VideoScreen from './Video.jsx'
+import PostProcessingEffects from '../utils/Effects.jsx'
 
 
 
@@ -29,7 +35,7 @@ const Test = () => {
 
   const handleUpClick = () => {
     setUpClick(!upClicked)
-    if(currCamPosition == 3) {
+    if(currCamPosition == 4) {
       setCurrCamPosition(0)
 
     }else{    
@@ -39,7 +45,7 @@ const Test = () => {
   const handleDownClick = () => {
     setDownClick(!downClicked)
     if(currCamPosition == 0) {
-      setCurrCamPosition(3)
+      setCurrCamPosition(4)
 
     }else{    
       setCurrCamPosition(currCamPosition-1)
@@ -61,8 +67,8 @@ const Test = () => {
  
   
   <Navbar/>
-  <div style={{position:"absolute" , height:"10vh" , width:"100vw" , zIndex:"10"}}>
-    <div style={{display:"flex",justifyContent:"space-evenly",position:"absolute" , width:"50vw" , height:"10vh", top:"80vh",paddingLeft:"25vw",paddingRight:"25vw"}}>
+  <div style={{position:"absolute" , height:"10vh" , width:"100vw" , zIndex:"10",top:"80vh"}}>
+    <div style={{display:"flex",justifyContent:"space-evenly",position:"absolute" , width:"50vw" , height:"10vh",paddingLeft:"25vw",paddingRight:"25vw"}}>
       <div onClick={handleUpClick} style={{width:"5vw" , backgroundColor:upClicked ? "green" : "red", textAlign:"center", display:"flex" , justifyContent:"center", flexDirection:"column"}}>
       UP
       </div>
@@ -74,16 +80,19 @@ const Test = () => {
   
 
   </div>  
-  <div style={{position:"relative", height:"100vh" , width:"100vw"}}> 
-  <Canvas dpr={[1, 1.5]} camera={{ fov: cameraFov, position: [0, 1, 13] }}>
+  <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(skyblue,#060b3b )" }}> 
+  <Canvas dpr={[1, 1.5]} camera={{ fov: cameraFov, position: [0, 100, 13] }} alpha={'true'} >
       {/* <OrbitControls enableRotate={false} enablePan={false} enableDamping={false} enableZoom={false}></OrbitControls> */}
       <OrbitControls/>
       <Scene camPosition={currCamPosition}></Scene>
-      <Countdown eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
-      
-
-
-  </Canvas>
+      {/* <Countdown eventDate={new Date("2024-12-31T00:00:00")}></Countdown> */}
+      {/* <Secops></Secops> */}
+      {/* <PostProcessingEffects/> */}
+  </Canvas> 
+  <LandingWrapper camPosition={currCamPosition}>
+    <LandingBody camPosition={currCamPosition}></LandingBody>
+  </LandingWrapper>
+  
 
 </div>
 </>
@@ -94,16 +103,26 @@ const Test = () => {
 
 
 const Scene = ({camPosition}) => {
-  const { scene, gl } = useThree();
-  const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
-    format: THREE.RGBFormat,
-    generateMipmaps: true,
-    minFilter: THREE.LinearMipmapLinearFilter,
-  });
-  const cubeCamera = new THREE.CubeCamera(1, 1000, cubeRenderTarget);
-  cubeCamera.position.set(0, 100, 0);
-  scene.add(cubeCamera);
+  // const { scene, gl } = useThree();
+  // const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
+  //   format: THREE.RGBFormat,
+  //   generateMipmaps: true,
+  //   minFilter: THREE.LinearMipmapLinearFilter,
+  // });
+  // const cubeCamera = new THREE.CubeCamera(1, 1000, cubeRenderTarget);
+  // cubeCamera.position.set(0, 100, 0);
+  // scene.add(cubeCamera);
+  const {...HoloProps} = {
+    fresnelAmount: 0.65,
+    fresnelOpacity: 0.2,
+    scanlineSize: 9.0,
+    hologramBrightness: 3.2,
+    signalSpeed: 3.15,
+    hologramColor: "#51a4de",
+    enableBlinking: false,
+    enabled: true,
   
+    }
 
 
 
@@ -120,28 +139,40 @@ const Scene = ({camPosition}) => {
   const box1ref= useRef()
   const box2ref= useRef()
   const box3ref= useRef()
+  const videoref = useRef()
 
-  const boxes = [box1ref , box2ref , box3ref]
+  const elementRefs = [box1ref , box2ref , box3ref, videoref]
+  const hideElts = ()=>{
+    elementRefs.forEach(element => {
+      element.current.visible = false; 
+    });
+
+  }
+  useEffect(()=>{
+   hideElts();
+  },[])
 
   const vec = new THREE.Vector3()
   
   useFrame(state =>{
     if (camPosition!=0){
-      const currentBox = boxes[camPosition-1].current;
-      boxes[camPosition-1].current.visible = true
-      state.camera.lookAt(boxes[camPosition-1].current.position)
-      console.log(boxes[camPosition-1].current.position.x)
+      const currentBox = elementRefs[camPosition-1].current;
+      hideElts();
+      elementRefs[camPosition-1].current.visible = true
+      state.camera.lookAt(elementRefs[camPosition-1].current.position)
+      // console.log(elementRefs[camPosition-1].current.position.x)
       state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.1)
       state.camera.updateProjectionMatrix()
     }
   
     if(camPosition==0){
       state.camera.position.lerp(vec.set(0, 1, 13),.1)
+      hideElts();
+
       
-      boxes.forEach(box => { box.current.visible = false
-      });
+    
     }
-    cubeCamera.update(gl, scene)
+    // cubeCamera.update(gl, scene)
     return null;
   })
 
@@ -151,51 +182,63 @@ const Scene = ({camPosition}) => {
     
   {/* <axesHelper /> */}
   {/* <color attach="background" args={['#000000']} /> */}
-  <ambientLight intensity={1} color="0xF9E4BC"/>
+  {/* <ambientLight intensity={1} color="0xF9E4BC"/> */}
   {/* <directionalLight color="blue" position={[0, 0, 5]} /> */}
-  <fog attach="fog" args={['#F9E4BC',0, 1000]} />
+  {/* <fog attach="fog" args={['#F9E4BC',0, 1000]} /> */}
   {/* <Environment preset="night" background={true}/> */}
-  <Environment files={['right.png', 'left.png', 'top.png', 'bot.png', 'front.png', 'back.png']} background/>
+  {/* <Environment files={['bg3.jpg']} background/> */}
+  <Environment files={['right.png', 'left.png', 'top.png', 'bot.png', 'front.png', 'back.png']} background backgroundBlurriness={0.03} />
+  {/* backgroundBlurriness={0.01} */}
+
   {/* <Sky distance={450000} sunPosition={[0,0.1,0]} inclination={0} azimuth={0.25} /> */}
 
 
   <Box ref={box1ref} position={[10, 0, -20]}>
-    <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial>
+    {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
+    <HolographicMaterial {...HoloProps}/>
   </Box>
   <Box ref={box2ref} position={[0, 0, -20]}>
-  <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial>
+  {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
+  <HolographicMaterial {...HoloProps}/>
+
 
   </Box>
   <Box ref={box3ref} position={[-10, 0, -20]}>
-  <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial>
+  {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
+  <HolographicMaterial {...HoloProps}/>
+
 
   </Box>
 
-  {/* <SupComLogo position={[0, 0, 0]} rotation={[Math.PI/2,0,0]}/> */}
+  <VideoScreen ref={videoref}/>
+
+    {/* <SupComLogo /> */}
+  <ForumLogo rotation={[Math.PI/2,0,0]}/>
   {/* <mesh rotation={[0, 0, 0]} position={[0,0,-1]} >
         <planeGeometry args={[50, 50]}  />
         <meshBasicMaterial color={0x000000} attach="material" />
               </mesh> */}
-  <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0,-1.8,0]} >
-        <planeGeometry args={[300,300,300,300]}  />
+  {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0,-4,0]} >
+        <planeGeometry args={[70,100,3,3]}  />
         <directionalLight intensity={0.5} />
     
 
- <meshStandardMaterial
-        map={baseColor}               // Base color (albedo)
+ <meshBasicMaterial
+        map={baseColor}  
+        color={"#060b3b"}             // Base color (albedo)
         // normalMap={normalMap}         // Normal map
-        roughnessMap={roughnessMap}   // Roughness map
+        // roughnessMap={roughnessMap}   // Roughness map
         // metalnessMap={metalnessMap} 
-        roughness={0.01}
-        metalness={1}  // Metallic map
+        // roughness={0.01}
+        // metalness={1}  // Metallic map
         // aoMap={aoMap}                 // Ambient Occlusion map
         // displacementMap={displacementMap}  // Height/Displacement map
         // displacementScale={0.2}       // Adjust the scale of displacement if necessary
         // transparent={true}            // Make material transparent if using opacity map
         // opacityMap={opacityMap}  
-        envMap={cubeCamera.renderTarget.texture}      // Opacity map
+        // envMap={cubeCamera.renderTarget.texture}      // Opacity map
       />
-      </mesh>
+      </mesh> */}
       </>
   )
 

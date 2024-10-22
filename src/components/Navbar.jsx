@@ -24,7 +24,8 @@ const Navbar = () => {
         flexWrap: "inherit",
         alignItems: "center",
         justifyContent: "space-between",
-        height:"10vh"
+        height:"10vh",
+        zIndex:"1000"
         }
     
         const buttonStyle = {
@@ -41,12 +42,12 @@ const Navbar = () => {
 
       
   return (
-    <div ref={navRef} style={{position:"absolute" , height:"10vh" , width:"100vw" , zIndex:"10"
+    <div ref={navRef} style={{position:"fixed" , height:"10vh" , width:"100vw" , zIndex:"10", top:"0"
     }}>
       <div style={navWrapper}>
       <div style={{display:"flex", flexDirection:"row" , width:"100vw" , justifyContent:"space-evenly",color:"#FFFFFF", fontFamily:"Overpass" , fontSize:"0.99em", fontWeight:"800"
 }}>
-        <div style={{padding:"10px"}}>SPEAKERS</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>SPEAKERS</div>
         <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>SCHEDULE</div>
         <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>VENUE</div>
         <img src="brand.png" width="150"></img>

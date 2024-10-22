@@ -9,11 +9,12 @@ import {useFrame } from '@react-three/fiber'
 
 export function SupComLogo(props) {
   const { nodes, materials } = useGLTF('supcomlogo-v1.glb')
+  console.log(nodes)
   const modelMaterial = nodes.Plane.material
   const supcomlogo = useRef()
-  useFrame(({ clock }) => {
-    supcomlogo.current.position.y =Math.sin(2*clock.getElapsedTime())*0.1
-  })
+  // useFrame(({ clock }) => {
+  //   supcomlogo.current.position.y =Math.sin(2*clock.getElapsedTime())*0.1
+  // })
   console.log(modelMaterial)
   return (
     <group {...props} dispose={null} ref={supcomlogo}>
@@ -26,6 +27,8 @@ export function SupComLogo(props) {
       >
         <meshBasicMaterial color="#ffffff" /> {/* The color will appear without the need for lights */}
         </mesh>
+
+      
 
     </group>
   )

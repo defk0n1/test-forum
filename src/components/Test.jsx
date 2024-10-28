@@ -1,5 +1,5 @@
 import React from 'react'
-import {OrbitControls, useCursor, MeshReflectorMaterial, Image, Text3D, Environment,CameraControls, Box , Plane, Sky, Center} from '@react-three/drei'
+import {OrbitControls, useCursor, MeshReflectorMaterial, Image, Text3D, Environment,CameraControls, Box , Plane, Sky, Center,Torus, Sphere ,useTexture} from '@react-three/drei'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame , useThree } from '@react-three/fiber'
@@ -17,13 +17,19 @@ import LandingWrapper from './LandingWrapper'
 import HolographicMaterial from '../utils/HolographicMaterial.jsx'
 import VideoScreen from './Video.jsx'
 import PostProcessingEffects from '../utils/Effects.jsx'
+import Carousel from './Carousel.jsx'
+import Countdown from './Countdown.jsx'
+import Icon from "../utils/3Dicons/Icon.jsx";
 
+
+const isMobile = window.innerWidth < 768
 
 
 const Test = () => {
 
-  const isMobile = window.innerWidth < 768
-  const cameraFov = isMobile ? 100 : 50
+  const cameraFov = isMobile ? 110 : 50
+  
+  const initcameraPos = isMobile ? [0, 1, 1] : [0, 100, 13]
  
   const [upClicked,setUpClick] = useState(false)
 
@@ -35,7 +41,7 @@ const Test = () => {
 
   const handleUpClick = () => {
     setUpClick(!upClicked)
-    if(currCamPosition == 4) {
+    if(currCamPosition == 5) {
       setCurrCamPosition(0)
 
     }else{    
@@ -45,7 +51,7 @@ const Test = () => {
   const handleDownClick = () => {
     setDownClick(!downClicked)
     if(currCamPosition == 0) {
-      setCurrCamPosition(4)
+      setCurrCamPosition(5)
 
     }else{    
       setCurrCamPosition(currCamPosition-1)
@@ -80,13 +86,11 @@ const Test = () => {
   
 
   </div>  
-  <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(skyblue,#060b3b )" }}> 
-  <Canvas dpr={[1, 1.5]} camera={{ fov: cameraFov, position: [0, 100, 13] }} alpha={'true'} >
-      {/* <OrbitControls enableRotate={false} enablePan={false} enableDamping={false} enableZoom={false}></OrbitControls> */}
-      <OrbitControls/>
+  <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" }}> 
+  <Canvas dpr={[1, 2]} camera={{ fov: cameraFov, position: initcameraPos }} alpha={'true'} >
+      <OrbitControls enablePan={false} enableRotate={false} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/>
       <Scene camPosition={currCamPosition}></Scene>
-      {/* <Countdown eventDate={new Date("2024-12-31T00:00:00")}></Countdown> */}
-      {/* <Secops></Secops> */}
+      {/* <Secops></Secops> */} 
       {/* <PostProcessingEffects/> */}
   </Canvas> 
   <LandingWrapper camPosition={currCamPosition}>
@@ -103,15 +107,8 @@ const Test = () => {
 
 
 const Scene = ({camPosition}) => {
-  // const { scene, gl } = useThree();
-  // const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
-  //   format: THREE.RGBFormat,
-  //   generateMipmaps: true,
-  //   minFilter: THREE.LinearMipmapLinearFilter,
-  // });
-  // const cubeCamera = new THREE.CubeCamera(1, 1000, cubeRenderTarget);
-  // cubeCamera.position.set(0, 100, 0);
-  // scene.add(cubeCamera);
+
+  
   const {...HoloProps} = {
     fresnelAmount: 0.65,
     fresnelOpacity: 0.2,
@@ -124,55 +121,128 @@ const Scene = ({camPosition}) => {
   
     }
 
+    // Define the plane's rotation around the X-axis
+  const planeRotation = new THREE.Euler(Math.PI / 2 + 0.1, 0, 0);
+  
+  // Calculate the normal vector from the plane rotation
+  const normal = new THREE.Vector3(0, 0, 1).applyEuler(planeRotation).normalize();
+
+  // Create two orthogonal vectors in the plane using the normal
+  const u = new THREE.Vector3().crossVectors(normal, new THREE.Vector3(1, 0, 0)).normalize();
+  const v = new THREE.Vector3().crossVectors(normal, u).normalize();
 
 
 
-  const [baseColor, normalMap, roughnessMap, metalnessMap, aoMap, opacityMap, displacementMap] = useLoader(TextureLoader, [
-    'grid.png',
-    'Glass_Window_002_normal.jpg',
-    'Glass_Window_002_roughness.jpg',
-    'Glass_Window_002_metallic.jpg',
-    'Glass_Window_002_ambientOcclusion.jpg',
-    'Glass_Window_002_opacity.jpg',
-    'Glass_Window_002_height.png',
-  ]);
+  
   const box1ref= useRef()
   const box2ref= useRef()
   const box3ref= useRef()
   const videoref = useRef()
+  const carouselRef = useRef()
+  const forumLogoRef = useRef()
+  const countdownRef = useRef()
 
-  const elementRefs = [box1ref , box2ref , box3ref, videoref]
+
+
+
+  const elementRefs = [box1ref , box2ref , box3ref, videoref,carouselRef ]
   const hideElts = ()=>{
     elementRefs.forEach(element => {
       element.current.visible = false; 
+
     });
+    if(camPosition==0){
+      box1ref.current.visible = true;
+      box2ref.current.visible = true;
+      box3ref.current.visible = true;
+    }
 
   }
   useEffect(()=>{
+
+
    hideElts();
   },[])
+  const secOpsTexture = useTexture("brand.png");
+
 
   const vec = new THREE.Vector3()
+  var carouselLerped = false
   
   useFrame(state =>{
-    if (camPosition!=0){
+    let date = Date.now() * 1 * 0.001;
+   
+
+    //CAMERA NAVIGATION
+    if (camPosition!=0 && camPosition){
+      forumLogoRef.current.visible = false
+      countdownRef.current.visible = false
+
       const currentBox = elementRefs[camPosition-1].current;
       hideElts();
-      elementRefs[camPosition-1].current.visible = true
-      state.camera.lookAt(elementRefs[camPosition-1].current.position)
-      // console.log(elementRefs[camPosition-1].current.position.x)
-      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.1)
+      currentBox.visible = true
+      currentBox.position
+      state.camera.lookAt(currentBox.position)
+      if(camPosition!=5){
+        carouselLerped = false
+      }
+      if(camPosition == 5 && !carouselLerped){
+        state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.02)
+        state.camera.updateProjectionMatrix()
+        setTimeout(() => {
+          carouselLerped = true
+          return;
+        }, 1000);
+      }
+      if(camPosition == 5 && carouselLerped){
+        return
+      }
+      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.02)
       state.camera.updateProjectionMatrix()
+
     }
   
     if(camPosition==0){
-      state.camera.position.lerp(vec.set(0, 1, 13),.1)
-      hideElts();
+      forumLogoRef.current.visible = true
+      countdownRef.current.visible = true
 
-      
-    
+
+      state.camera.position.lerp(vec.set(0, 1, 13),.1)
+      box1ref.current.position.set(
+        7 * Math.cos(date)  * u.x + 3.5 * Math.sin(date) * 2 * v.x,
+        7 * Math.cos(date)  * u.y + 3.5 * Math.sin(date) * 2 * v.y,
+        7 * Math.cos(date)  * u.z + 3.5 * Math.sin(date) * 2 * v.z
+  
+      );
+      box2ref.current.position.set(
+        4 * Math.cos(2 * date)  * u.x + 2 * Math.sin(2 * date) * 2 * v.x,
+        4 * Math.cos(2 * date)  * u.y + 2 * Math.sin(2 * date) * 2 * v.y,
+        4 * Math.cos(2 * date)  * u.z + 2 * Math.sin(2 * date) * 2 * v.z
+  
+      );
+      box3ref.current.position.set(
+        10 * Math.cos(date)  * u.x + 5 * Math.sin(date) * 2 * v.x,
+        10 * Math.cos(date)  * u.y + 5 * Math.sin(date) * 2 * v.y,
+        10 * Math.cos(date)  * u.z + 5 * Math.sin(date) * 2 * v.z
+  
+      );
+      hideElts();
     }
-    // cubeCamera.update(gl, scene)
+//END CAMERA NAVIGATION 
+
+    
+
+
+
+
+
+   
+
+
+
+
+
+
     return null;
   })
 
@@ -187,109 +257,90 @@ const Scene = ({camPosition}) => {
   {/* <fog attach="fog" args={['#F9E4BC',0, 1000]} /> */}
   {/* <Environment preset="night" background={true}/> */}
   {/* <Environment files={['bg3.jpg']} background/> */}
-  <Environment files={['right.png', 'left.png', 'top.png', 'bot.png', 'front.png', 'back.png']} background backgroundBlurriness={0.03} />
+  {!isMobile && <Environment files={['right.png', 'left.png', 'top.png', 'bot.png', 'front.png', 'back.png']} background backgroundBlurriness={0.4} />}
   {/* backgroundBlurriness={0.01} */}
 
   {/* <Sky distance={450000} sunPosition={[0,0.1,0]} inclination={0} azimuth={0.25} /> */}
 
 
-  <Box ref={box1ref} position={[10, 0, -20]}>
-    {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
-    <HolographicMaterial {...HoloProps}/>
-  </Box>
-  <Box ref={box2ref} position={[0, 0, -20]}>
-  {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
-  <HolographicMaterial {...HoloProps}/>
+<group>
+  <mesh>
+      <Torus
+        args={[7, 0.03, 2, 500]}
+        position={[0, 0, 0]}
+        rotation={[Math.PI / 2 + 0.1, 0, 0]}
+      >
+        <meshBasicMaterial color="#FFFFFF" opacity={0.2} transparent/>
+      </Torus>
+
+</mesh>
+
+<mesh>
+      <Torus
+        args={[4, 0.03, 2, 500]}
+        position={[0, 0, 0]}
+        rotation={[Math.PI / 2 + 0.1 , 0, 0]}
+      >
+        <meshBasicMaterial color="#FFFFFF" opacity={0.2} transparent/>
+      </Torus>
+
+</mesh>
+
+<mesh>
+      <Torus
+        args={[10, 0.03, 2, 500]}
+        position={[0, 0, 0]}
+        rotation={[Math.PI / 2 + 0.1, 0, 0]}
+      >
+        <meshBasicMaterial color="#FFFFFF" opacity={0.2}  transparent/>
+      </Torus>
+
+</mesh>
+</group>
 
 
-  </Box>
-  <Box ref={box3ref} position={[-10, 0, -20]}>
-  {/* <meshBasicMaterial color={"#62EFFE"}></meshBasicMaterial> */}
-  <HolographicMaterial {...HoloProps}/>
+<mesh ref={box1ref} position={[7, 0, 0]}  >
+<sprite scale={[2,1,1]}
+>
+        <spriteMaterial
+          attach="material"
+          map={secOpsTexture}
+        />
+      </sprite>
+  </mesh>
+
+<Sphere ref={box2ref} position={[4, 0, 0]} scale={[0.1,0.1,0.1]}/>
+
+<Sphere ref={box3ref} position={[10, 0, 0]} scale={[0.1,0.1,0.1]}/>
 
 
-  </Box>
+
+
+
+ 
 
   <VideoScreen ref={videoref}/>
 
+  <Carousel ref={carouselRef} />
     {/* <SupComLogo /> */}
-  <ForumLogo rotation={[Math.PI/2,0,0]}/>
-  {/* <mesh rotation={[0, 0, 0]} position={[0,0,-1]} >
-        <planeGeometry args={[50, 50]}  />
-        <meshBasicMaterial color={0x000000} attach="material" />
-              </mesh> */}
-  {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0,-4,0]} >
-        <planeGeometry args={[70,100,3,3]}  />
-        <directionalLight intensity={0.5} />
-    
+  <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
+  <Countdown ref={countdownRef} eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
 
- <meshBasicMaterial
-        map={baseColor}  
-        color={"#060b3b"}             // Base color (albedo)
-        // normalMap={normalMap}         // Normal map
-        // roughnessMap={roughnessMap}   // Roughness map
-        // metalnessMap={metalnessMap} 
-        // roughness={0.01}
-        // metalness={1}  // Metallic map
-        // aoMap={aoMap}                 // Ambient Occlusion map
-        // displacementMap={displacementMap}  // Height/Displacement map
-        // displacementScale={0.2}       // Adjust the scale of displacement if necessary
-        // transparent={true}            // Make material transparent if using opacity map
-        // opacityMap={opacityMap}  
-        // envMap={cubeCamera.renderTarget.texture}      // Opacity map
-      />
-      </mesh> */}
+
+ 
       </>
   )
 
 }
 
-function Countdown({ eventDate }) {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-  const textRef = useRef()
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date()
-      const difference = eventDate.getTime() - now.getTime()
 
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        })
-      } else {
-        clearInterval(timer)
-      }
-    }, 1000)
 
-    return () => clearInterval(timer)
-  }, [eventDate])
 
-  
 
-  return (
-    <Center>
-    <group position={[-0.3, 0, 0]}>
-      <Text3D
-        ref={textRef}
-        color="#FFFFFF"
-        anchorX="center"
-        anchorY="middle"
-        fontSize={2}
-        font={"/fonts/Overpass_Bold.json"}
-      >
 
-        {`\n${timeLeft.days}D ${timeLeft.hours}H ${timeLeft.minutes}M ${timeLeft.seconds}S`}
-        <meshBasicMaterial color="#F9E4BC" />
 
-      </Text3D>
-    </group>
-    </Center>
-  )
-}
+
 
 
 

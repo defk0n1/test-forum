@@ -100,7 +100,7 @@ export default function Icon({
     function pathToMesh(i, index) {
       return (
         <mesh key={index}>
-          <meshStandardMaterial color={color} />
+          <meshBasicMaterial color={color} />
           <extrudeGeometry args={[i.shape, extrude]} />
         </mesh>
       );

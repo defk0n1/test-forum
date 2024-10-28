@@ -56,14 +56,12 @@
 
 // export default VideoScreen;
 import React, { useState , forwardRef} from "react";
-import { Text } from "@react-three/drei";
 import { useEffect } from "react";
 import Icon from "../utils/3Dicons/Icon.jsx";
 
 
 
 import * as THREE from "three";
-import { depth } from "three/webgpu";
 
 
 
@@ -100,21 +98,8 @@ const VideoScreen  = forwardRef((props,ref) => {
         </meshStandardMaterial>
 
       </mesh>
-      {/* <Text
-      onClick={(e)=>{setVideoPlaying(!videoPlaying)}}
-      position={!videoPlaying ? [0, -0.1, -39.5]:[-3.7, -2.5, -39.5]}
-      scale={[1, 2, 1]}
-        color="black" // default
-        anchorX="center" // default
-        anchorY="middle" >
-
-            {videoPlaying ? "||": "play"}
-
-
-      </Text> */}
-      <group>
-      <Icon onClick={(e)=>{setVideoPlaying(!videoPlaying)}} position={!videoPlaying ? [0, -0.1, -39.5]:[-3.7, -2.5, -39.5]} file={videoPlaying? "pause-button-svgrepo-com.svg" : "play-svgrepo-com.svg"} color={"#FFFFFF"} scale={0.04} depth={0.001} ref={ref}></Icon>
-      </group>
+      <Icon  onClick={(e)=>{setVideoPlaying(!videoPlaying)}} position={!videoPlaying ? [0, -0.1, -39.5]:[-3.7, -2.5, -39.5]} file={videoPlaying? "pause-button-svgrepo-com.svg" : "play-svgrepo-com.svg"} color={"#FFFFFF"} scale={0.04} depth={0.001} ></Icon>
+     
     </group>
   );
 });

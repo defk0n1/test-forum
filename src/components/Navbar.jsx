@@ -47,14 +47,14 @@ const Navbar = () => {
       <div style={navWrapper}>
       <div style={{display:"flex", flexDirection:"row" , width:"100vw" , justifyContent:"space-evenly",color:"#FFFFFF", fontFamily:"Overpass" , fontSize:"0.99em", fontWeight:"800"
 }}>
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>SPEAKERS</div>
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>SCHEDULE</div>
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>VENUE</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>SPEAKERS</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>SCHEDULE</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>VENUE</div>
         <img src="brand.png" width="150"></img>
 
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>SPONSORS</div>
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>GALLERY</div>
-        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 10px 20px #FFFFFF)"}}>CONTACT</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>SPONSORS</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>GALLERY</div>
+        <div style={{padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)"}}>CONTACT</div>
         {/* <div style={buttonStyle}>REGISTER NOW</div> */}
 
       </div>

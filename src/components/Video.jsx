@@ -99,7 +99,7 @@ const VideoScreen  = forwardRef((props,ref) => {
 
       </mesh>
       <Icon  onClick={(e)=>{setVideoPlaying(!videoPlaying)}} position={!videoPlaying ? [0, -0.1, -39.5]:[-3.7, -2.5, -39.5]} file={videoPlaying? "pause-button-svgrepo-com.svg" : "play-svgrepo-com.svg"} color={"#FFFFFF"} scale={0.04} depth={0.001} ></Icon>
-     
+      
     </group>
   );
 });

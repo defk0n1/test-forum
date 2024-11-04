@@ -8,16 +8,22 @@ const LandingBody = ({camPosition}) => {
 
     const landingContent = [
         {void:"void"},
+        {SecOps : "Security is everyone’s responsibility. SecOps blends security into every layer of operations, enabling teams to tackle threats proactively without sacrificing speed. Discover how a SecOps approach can safeguard your business in an ever-evolving digital landscape."} ,  
         {DevOps : "Unlock speed and agility in software delivery! DevOps breaks down the walls between development and operations, bringing teams together to streamline processes, automate tasks, and release high-quality software faster. Join us to explore how DevOps can transform your workflow."},
-        {SecOps : "Security is everyone’s responsibility. SecOps blends security into every layer of operations, enabling teams to tackle threats proactively without sacrificing speed. Discover how a SecOps approach can safeguard your business in an ever-evolving digital landscape."} , 
         {MLops : "Bring your machine learning models from the lab to the real world! MLOps ensures smooth deployment and management of AI solutions at scale, with continuous monitoring and updates to keep them sharp. Learn how MLOps can accelerate your AI journey."},
         {void:"void"},
-        {void:"void"}
+        {void:"void"},
+        {SecOps:"testetse"},
+        {BlueSponsors: "testetse"}, 
+        {RedSponsors: "testetse"},
+        {SilverSponsors: "testetse"},
+        {GoldSponsors: "testetse"}
+    
+]
 
-    ]
     const currentContent = landingContent[camPosition]
     const bodyStyling = {
-        display:camPosition == 0? "none" : "flex",
+        display:"flex",
         flexDirection:"column",
         justifyContent:"space-around",
         textAlign:"center",
@@ -52,7 +58,7 @@ const LandingBody = ({camPosition}) => {
     },[currentContent])
 
 
-
+    console.log(currentContent)
     
 
 

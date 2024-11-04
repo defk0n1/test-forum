@@ -9,7 +9,6 @@ import { easing } from 'maath'
 import '../utils/CarouselUtils'
 
 const isMobile = window.innerWidth < 768 ;
-const fieldofView = isMobile ? 30 : 15;
 
 
 
@@ -32,7 +31,7 @@ export default forwardRef((props,ref)=>{
 );
 
 
-function Main({ radius = 4, count = 12 }) {
+function Main({ radius = 4.2, count = 12 }) {
   return Array.from({ length: count }, (_, i) => (
     <Card 
       key={i}
@@ -54,21 +53,8 @@ function Card({ url, ...props }) {
     easing.damp(ref.current.material, 'zoom', hovered ? 1 : 1.5, 0.2, delta)
   })
   return (
-    <Image ref={ref} url={url} transparent side={THREE.BackSide} onPointerOver={pointerOver} onPointerOut={pointerOut} {...props}>
-      <bentPlaneGeometry args={[0.1, 1.733, 2, 20, 20]} />
+    <Image onClick={e =>stopPropagation(e)}  ref={ref} url={url} transparent side={THREE.BackSide} onPointerOver={pointerOver} onPointerOut={pointerOut} {...props}>
+      <bentPlaneGeometry args={[0.1, 2, 1.5, 20, 20]} />
     </Image>
   )
 }
-
-
-// function Rig(props) {
-//   const ref = useRef()
-//   const scroll = useScroll()
-//   useFrame((state, delta) => {
-//     ref.current.rotation.y = -scroll.offset * (Math.PI * 2) // Rotate contents
-//     state.events.update() // Raycasts every frame rather than on pointer-move
-//     easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta) // Move camera
-//     state.camera.lookAt(0, 0, 0) // Look at center
-//   })
-//   return <group ref={ref} {...props} />
-// }

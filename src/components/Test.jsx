@@ -1,33 +1,74 @@
 import React from 'react'
-import {OrbitControls, useCursor, MeshReflectorMaterial, Image, Text3D, Environment,CameraControls, Box , Plane, Sky, Center,Torus, Sphere ,useTexture} from '@react-three/drei'
+import {OrbitControls, useCursor, MeshReflectorMaterial, Image, Text3D, Environment,CameraControls, Box , Plane, Sky, Center,Torus, Sphere ,useTexture, Sparkles,Stars,PerspectiveCamera} from '@react-three/drei'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame , useThree } from '@react-three/fiber'
-import { easing } from 'maath'
-import { useLoader } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import {SupComLogo} from './SupComLogo'
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
-import { color } from 'three/webgpu'
 import Navbar from './Navbar'
 import Secops from './Secops'
 import ForumLogo from './ForumLogo'
 import LandingBody from './LandingBody'
 import LandingWrapper from './LandingWrapper'
-import HolographicMaterial from '../utils/HolographicMaterial.jsx'
 import VideoScreen from './Video.jsx'
 import PostProcessingEffects from '../utils/Effects.jsx'
 import Carousel from './Carousel.jsx'
 import Countdown from './Countdown.jsx'
-import Icon from "../utils/3Dicons/Icon.jsx";
+import Sponsors from './sponsors/Sponsors.jsx'
+import RedSponsors from './sponsors/RedSponsors.jsx'
+import GoldSponsors from './sponsors/GoldSponsors.jsx'
+import SilverSponsors from './sponsors/SilverSponsors.jsx'
+
+
+import { MathUtils } from 'three';
 
 
 const isMobile = window.innerWidth < 768
 
 
+const fov = 50;
+const planeAspectRatio = 16 / 9;
+
+function ResizableCamera() {
+  const { camera, gl } = useThree();
+  
+  useEffect(() => {
+    const handleResize = () => {
+      // Update camera aspect and size
+      camera.aspect = window.innerWidth / window.innerHeight;
+      if (camera.aspect > planeAspectRatio) {
+        // window too large
+        camera.fov = fov;
+      } else {
+        // window too narrow
+        const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
+        const ratio = camera.aspect / planeAspectRatio;
+        const newCameraHeight = cameraHeight / ratio;
+        camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
+      }
+      camera.updateProjectionMatrix();
+      gl.setSize(window.innerWidth, window.innerHeight);
+    };
+    
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Initial setup
+    handleResize();
+    
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, [camera, gl]);
+
+  return null;
+}
+
+
+
+
+
 const Test = () => {
 
-  const cameraFov = isMobile ? 110 : 50
+  const cameraFov = isMobile ? 120 : 50
+  const cameraAspect = window.innerWidth / window.innerHeight
   
   const initcameraPos = isMobile ? [0, 1, 1] : [0, 100, 13]
  
@@ -41,7 +82,7 @@ const Test = () => {
 
   const handleUpClick = () => {
     setUpClick(!upClicked)
-    if(currCamPosition == 5) {
+    if(currCamPosition == 9) {
       setCurrCamPosition(0)
 
     }else{    
@@ -51,15 +92,13 @@ const Test = () => {
   const handleDownClick = () => {
     setDownClick(!downClicked)
     if(currCamPosition == 0) {
-      setCurrCamPosition(5)
+      setCurrCamPosition(9)
 
     }else{    
       setCurrCamPosition(currCamPosition-1)
     }
 
   }
-
-  
 
 
 
@@ -87,10 +126,11 @@ const Test = () => {
 
   </div>  
   <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" }}> 
-  <Canvas dpr={[1, 2]} camera={{ fov: cameraFov, position: initcameraPos }} alpha={'true'} >
+  <Canvas dpr={[1, 2]}  alpha={'true'} >
+      <ResizableCamera></ResizableCamera>
+      <PerspectiveCamera makeDefault />
       <OrbitControls enablePan={false} enableRotate={false} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/>
       <Scene camPosition={currCamPosition}></Scene>
-      {/* <Secops></Secops> */} 
       {/* <PostProcessingEffects/> */}
   </Canvas> 
   <LandingWrapper camPosition={currCamPosition}>
@@ -109,18 +149,7 @@ const Test = () => {
 const Scene = ({camPosition}) => {
 
   
-  const {...HoloProps} = {
-    fresnelAmount: 0.65,
-    fresnelOpacity: 0.2,
-    scanlineSize: 9.0,
-    hologramBrightness: 3.2,
-    signalSpeed: 3.15,
-    hologramColor: "#51a4de",
-    enableBlinking: false,
-    enabled: true,
-  
-    }
-
+ 
     // Define the plane's rotation around the X-axis
   const planeRotation = new THREE.Euler(Math.PI / 2 + 0.1, 0, 0);
   
@@ -141,11 +170,17 @@ const Scene = ({camPosition}) => {
   const carouselRef = useRef()
   const forumLogoRef = useRef()
   const countdownRef = useRef()
+  const sparklesRef = useRef()
+  const sponsorsRef = useRef()
+  const redSponsorsRef  = useRef()
+  const goldSponsorsRef = useRef()
+  const silverSponsorsRef = useRef()
 
 
 
-
-  const elementRefs = [box1ref , box2ref , box3ref, videoref,carouselRef ]
+  const elementRefs = [box2ref , box1ref , box3ref, videoref,carouselRef,sponsorsRef,redSponsorsRef,
+    goldSponsorsRef,
+    silverSponsorsRef ]
   const hideElts = ()=>{
     elementRefs.forEach(element => {
       element.current.visible = false; 
@@ -163,14 +198,18 @@ const Scene = ({camPosition}) => {
 
    hideElts();
   },[])
-  const secOpsTexture = useTexture("brand.png");
+  const secOpsTexture = useTexture("sec icon@2x.png");
+  const devOpsTexture = useTexture("dev icon@2x.png");
+  const mlOpsTexture = useTexture("AI icon@2x.png");
+
+
 
 
   const vec = new THREE.Vector3()
   var carouselLerped = false
   
   useFrame(state =>{
-    let date = Date.now() * 1 * 0.001;
+    let date = Date.now() * 1 * 0.0013;
    
 
     //CAMERA NAVIGATION
@@ -181,13 +220,18 @@ const Scene = ({camPosition}) => {
       const currentBox = elementRefs[camPosition-1].current;
       hideElts();
       currentBox.visible = true
-      currentBox.position
+      if(camPosition<6){
+        sparklesRef.current.position.set(currentBox.position.x,currentBox.position.y,currentBox.position.z)
+
+      }
+      
+      
       state.camera.lookAt(currentBox.position)
       if(camPosition!=5){
         carouselLerped = false
       }
       if(camPosition == 5 && !carouselLerped){
-        state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.02)
+        state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,isMobile ? currentBox.position.z+4 : currentBox.position.z+10),.02)
         state.camera.updateProjectionMatrix()
         setTimeout(() => {
           carouselLerped = true
@@ -197,7 +241,7 @@ const Scene = ({camPosition}) => {
       if(camPosition == 5 && carouselLerped){
         return
       }
-      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,currentBox.position.z+10),.02)
+      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,isMobile ? currentBox.position.z+4 : currentBox.position.z+10 ),.02)
       state.camera.updateProjectionMatrix()
 
     }
@@ -205,6 +249,8 @@ const Scene = ({camPosition}) => {
     if(camPosition==0){
       forumLogoRef.current.visible = true
       countdownRef.current.visible = true
+      sparklesRef.current.position.set(0,0,0)
+
 
 
       state.camera.position.lerp(vec.set(0, 1, 13),.1)
@@ -299,19 +345,38 @@ const Scene = ({camPosition}) => {
 </group>
 
 
-<mesh ref={box1ref} position={[7, 0, 0]}  >
-<sprite scale={[2,1,1]}
->
+    <mesh ref={box1ref} position={[7, 0, 0]}  >
+      <sprite scale={[1, 1, 1]}
+      >
+        <spriteMaterial
+          attach="material"
+          map={devOpsTexture}
+        />
+      </sprite>
+    </mesh>
+
+    <mesh ref={box2ref} position={[4, 0, 0]}  >
+      <sprite scale={[1, 1, 1]}
+      >
         <spriteMaterial
           attach="material"
           map={secOpsTexture}
         />
       </sprite>
-  </mesh>
+    </mesh>
 
-<Sphere ref={box2ref} position={[4, 0, 0]} scale={[0.1,0.1,0.1]}/>
 
-<Sphere ref={box3ref} position={[10, 0, 0]} scale={[0.1,0.1,0.1]}/>
+    <mesh ref={box3ref} position={[10, 0, 0]}  >
+      <sprite scale={[1, 1, 1]}
+      >
+        <spriteMaterial
+          attach="material"
+          map={mlOpsTexture}
+        />
+      </sprite>
+    </mesh>
+
+
 
 
 
@@ -325,8 +390,21 @@ const Scene = ({camPosition}) => {
     {/* <SupComLogo /> */}
   <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
   <Countdown ref={countdownRef} eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
+   <>
+  <Sponsors ref={sponsorsRef} position={[0,0.3,-60]}/>
+  <RedSponsors ref={redSponsorsRef} position={[0,0.3,-80]}/>
+  <GoldSponsors ref={goldSponsorsRef} position={[0,0.3,-90]}/>
+  <SilverSponsors ref={silverSponsorsRef} position={[0,0.3,-100]}/>
+  </>
 
 
+
+  <group>
+        <Center>
+          <Sparkles ref={sparklesRef} position={[0, 0, 0]} speed={2} scale={7.4} size={4} color={"#ADD8E6"} />
+          <Stars radius={100} depth={3} count={4000} factor={3} saturation={0} fade speed={3} />
+        </Center>
+    </group>
  
       </>
   )

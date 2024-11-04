@@ -39,7 +39,7 @@ export default forwardRef(( props,ref ) => {
           anchorY="middle"
           fontSize={2}
           font={"/fonts/Overpass_Bold.json"}
-          
+          onClick={e =>stopPropagation(e)}
         >
   
           {`\n${timeLeft.days}D ${timeLeft.hours}H ${timeLeft.minutes}M ${timeLeft.seconds}S`}

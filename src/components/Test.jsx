@@ -129,7 +129,7 @@ const Test = () => {
   <Canvas dpr={[1, 2]}  alpha={'true'} >
       <ResizableCamera></ResizableCamera>
       <PerspectiveCamera makeDefault />
-      <OrbitControls enablePan={false} enableRotate={false} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/>
+      {/* <OrbitControls enabled={currCamPosition == 3} enablePan={false} enableRotate={false} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/> */}
       <Scene camPosition={currCamPosition}></Scene>
       {/* <PostProcessingEffects/> */}
   </Canvas> 
@@ -241,7 +241,7 @@ const Scene = ({camPosition}) => {
       if(camPosition == 5 && carouselLerped){
         return
       }
-      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,isMobile ? currentBox.position.z+4 : currentBox.position.z+10 ),.02)
+      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y, isMobile ? currentBox.position.z+9 : currentBox.position.z+10 ),.02)
       state.camera.updateProjectionMatrix()
 
     }
@@ -386,15 +386,15 @@ const Scene = ({camPosition}) => {
 
   <VideoScreen ref={videoref}/>
 
-  <Carousel ref={carouselRef} />
+  <Carousel cam={camPosition}  ref={carouselRef} />
     {/* <SupComLogo /> */}
   <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
   <Countdown ref={countdownRef} eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
    <>
-  <Sponsors ref={sponsorsRef} position={[0,0.3,-60]}/>
-  <RedSponsors ref={redSponsorsRef} position={[0,0.3,-80]}/>
-  <GoldSponsors ref={goldSponsorsRef} position={[0,0.3,-90]}/>
-  <SilverSponsors ref={silverSponsorsRef} position={[0,0.3,-100]}/>
+  <Sponsors cam={camPosition}   ref={sponsorsRef} position={[0,0.3,-60]}/>
+  <RedSponsors cam={camPosition}  ref={redSponsorsRef} position={[0,0.3,-80]}/>
+  <GoldSponsors cam={camPosition}  ref={goldSponsorsRef} position={[0,0.3,-90]}/>
+  <SilverSponsors cam={camPosition}  ref={silverSponsorsRef} position={[0,0.3,-100]}/>
   </>
 
 

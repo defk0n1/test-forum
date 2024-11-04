@@ -21,7 +21,7 @@ export default forwardRef((props,ref)=>{
   
   return(
     <>
-    <OrbitControls target={new THREE.Vector3(0,0,-54)} enablePan={false} enableRotate={true} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/>
+    <OrbitControls enabled={props.cam == 5} target={new THREE.Vector3(0,0,-54)} enablePan={false} enableRotate={true} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/>
         <mesh position={[0,0,-54]} ref={ref}>
         <Main />
         </mesh>
@@ -53,7 +53,7 @@ function Card({ url, ...props }) {
     easing.damp(ref.current.material, 'zoom', hovered ? 1 : 1.5, 0.2, delta)
   })
   return (
-    <Image onClick={e =>stopPropagation(e)}  ref={ref} url={url} transparent side={THREE.BackSide} onPointerOver={pointerOver} onPointerOut={pointerOut} {...props}>
+    <Image onClick={(e) =>{ e.stopPropagation()} } ref={ref} url={url} transparent side={THREE.BackSide} onPointerOver={pointerOver} onPointerOut={pointerOut} {...props}>
       <bentPlaneGeometry args={[0.1, 2, 1.5, 20, 20]} />
     </Image>
   )

@@ -90,7 +90,7 @@ const VideoScreen  = forwardRef((props,ref) => {
 
   return (
     <group >
-      <mesh rotation={[0, 0, 0]} position={[0, 0, -40]} ref={ref}>
+      <mesh onClick={(e)=>{setVideoPlaying(!videoPlaying)}} rotation={[0, 0, 0]} position={[0, 0, -40]} ref={ref}>
         <planeGeometry args={[9.2, 5.9]} />
         <meshStandardMaterial emissive={"white"} side={THREE.FrontSide}>
           <videoTexture attach="map" args={[video]} />
@@ -98,7 +98,6 @@ const VideoScreen  = forwardRef((props,ref) => {
         </meshStandardMaterial>
 
       </mesh>
-      <Icon  onClick={(e)=>{setVideoPlaying(!videoPlaying)}} position={!videoPlaying ? [0, -0.1, -39.5]:[-3.7, -2.5, -39.5]} file={videoPlaying? "pause-button-svgrepo-com.svg" : "play-svgrepo-com.svg"} color={"#FFFFFF"} scale={0.04} depth={0.001} ></Icon>
       
     </group>
   );

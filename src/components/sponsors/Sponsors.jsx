@@ -10,7 +10,7 @@ import HoloPuck from './Holopuck.jsx'
 const images = 
 [
   // Front
-  { position: [0, -0.2, 7] , url: "logos/Cognira.png",pack:"blue", link : "https://cognira.com/"},
+  { position: [0, 0, 7] , url: "logos/Cognira.png",pack:"blue", link : "https://cognira.com/"},
 
 ]
 
@@ -22,7 +22,7 @@ const images =
 const Sponsors = forwardRef((props , ref) => {
     return (
     <group ref={ref} position={props.position} >
-      {images.map((props) => <Sponsor key={props.url} {...props} /> /* prettier-ignore */)}
+      {images.map((options) => <Sponsor cam={props.cam} key={options.url} {...options} /> /* prettier-ignore */)}
     </group>
     
   )
@@ -50,6 +50,8 @@ const Sponsor = forwardRef((props,ref) => {
   }
 
   const handleSponsorClick = (e,link) => {
+    console.log(props.cam)
+    if(props.cam == 5){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 
 
@@ -69,16 +71,16 @@ const Sponsor = forwardRef((props,ref) => {
 
   console.log(logoTexture)
   return (
-    <mesh onClick={(e)=>{handleSponsorClick(e,link)}} ref={ref} position={props.position}  >
-    <sprite scale={logoScale(props)}>
+    <mesh  ref={ref} position={props.position}  >
+    <sprite onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
       <spriteMaterial
         attach="material"
         map={logoTexture}
       />
     </sprite>
 
-    <mesh position={[0,-0.5,0.4]}>
-    <cylinderGeometry args={[0.75,0.3,0.4]} />
+    <mesh position={[0,-0.6,0]}>
+    <cylinderGeometry args={[0.95,0.3,0.4]} />
     <FakeGlowMaterial falloff={1}
     glowInternalRadius={0.3}
     glowColor={"white"}
@@ -88,12 +90,18 @@ const Sponsor = forwardRef((props,ref) => {
     depthTest={false}
     ></FakeGlowMaterial>
     </mesh>
-    {/* <mesh position={[0,-3.5,0]}>
-    <cylinderGeometry args={[0.7,0.7,6]} />
-    <HolographicMaterial {...HoloProps} ></HolographicMaterial>
-    </mesh> */}
-    <HoloPuck position={[0,-0.8,0]}></HoloPuck>
-    <Sparkles noise={2} count={20} speed={0.1} scale={1.4} size={1.2} color={"lightblue"}></Sparkles>
+    {/* <mesh position={[0,0.6,0]}>
+    <cylinderGeometry args={[0.95,0.95,2]} />
+    <FakeGlowMaterial falloff={1}
+    glowInternalRadius={0.3}
+    glowColor={"white"}
+    glowSharpness={0.5}
+    side={"THREE.BackSide"}
+    opacity={0.1}
+    depthTest={false}
+    ></FakeGlowMaterial>    </mesh> */}
+    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.9,0]}></HoloPuck>
+    <Sparkles noise={2} count={10} speed={0.1} scale={0.1} size={1.2} color={"lightblue"}></Sparkles>
    
     
    

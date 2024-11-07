@@ -1,17 +1,35 @@
-import * as THREE from 'three'
 import { forwardRef, useEffect, useRef, useState } from 'react'
-import { useFrame } from '@react-three/fiber'
 import { Sparkles, Sphere, useTexture} from '@react-three/drei'
 import FakeGlowMaterial from '../../utils/FakeGlowMaterial.jsx'
-import HolographicMaterial from '../../utils/HolographicMaterial.jsx'
 import HoloPuck from './Holopuck.jsx'
 
 
-const images = 
+
+const isMobile = window.innerWidth < 768
+
+const images = !isMobile ?
 [
   // Front
-  { position: [0, -0.5, 7] , url: "logos/Cognira.png",pack:"gold",link:"https://cognira.com/"},
-  { position: [1.8, 0, 6], url:"logos/Pearls.png",pack:"gold",link:"https://www.pearls.consulting/" },
+  { position: [2, 0.6, 6] , url: "logos/gold/Telnet.png",pack:"gold",link:"https://groupe-telnet.com/"},
+  { position: [0, 0.6, 6], url:"logos/gold/Pearls.png",pack:"gold",link:"https://www.pearls.consulting/"},
+  { position: [2, -0.6, 6], url:"logos/gold/SIEMENS.png",pack:"gold",link:"https://www.siemens.com/"},
+  { position: [0, -0.6, 6], url:"logos/gold/Pwc.png",pack:"gold",link:"https://tunisie.pwc.fr/fr/"},
+  { position: [-2, -0.6, 6], url:"logos/gold/FORVIA.png",pack:"gold",link:"https://www.forvia.com/en"},
+  { position: [-2, 0.6, 6], url:"logos/gold/Primatec.png",pack:"gold",link:"https://tn.linkedin.com/company/primatec-engineering"},
+
+
+]
+:
+[
+  // Front
+  { position: [1.1, 0.6, 6] , url: "logos/gold/Telnet.png",pack:"gold",link:"https://groupe-telnet.com/"},
+  { position: [0, 0.6, 6], url:"logos/gold/Pearls.png",pack:"gold",link:"https://www.pearls.consulting/"},
+  { position: [1.1, -0.6, 6], url:"logos/gold/SIEMENS.png",pack:"gold",link:"https://www.siemens.com/"},
+  { position: [0, -0.6, 6], url:"logos/gold/Pwc.png",pack:"gold",link:"https://tunisie.pwc.fr/fr/"},
+  { position: [-1.1, -0.6, 6], url:"logos/gold/FORVIA.png",pack:"gold",link:"https://www.forvia.com/en"},
+  { position: [-1.1, 0.6, 6], url:"logos/gold/Primatec.png",pack:"gold",link:"https://tn.linkedin.com/company/primatec-engineering"},
+
+
 ]
 
 
@@ -22,7 +40,7 @@ const images =
 const Sponsors = forwardRef((props , ref) => {
     return (
     <group ref={ref} position={props.position} >
-      {images.map((props) => <Sponsor key={props.url} {...props} /> /* prettier-ignore */)}
+      {images.map((options) => <Sponsor cam={props.cam} key={props.url} {...options} /> /* prettier-ignore */)}
     </group>
     
   )
@@ -40,12 +58,17 @@ const Sponsor = forwardRef((props,ref) => {
 
 
   const logoScale =(props)=>{
-    if (props.pack == "blue"){
-      return [2,0.75,AspectRatio]
-    }else if (props.pack =="red") {
-      return [1.25,0.75,0.75*AspectRatio]
+    if(props.url == "logos/gold/SIEMENS.png" ){
+      return [1,0.3,0.15*AspectRatio]
+
     }
-    else return [1,0.5,0.75*AspectRatio]
+
+    if(props.url == "logos/gold/Pwc.png" ){
+      return [0.7,0.7,0.15*AspectRatio]
+
+    }
+    else
+     return [0.8,0.4,0.75*AspectRatio]
 
   }
 
@@ -66,7 +89,7 @@ const Sponsor = forwardRef((props,ref) => {
     
     const handleSponsorClick = (e,link) => {
       console.log(props.cam)
-      if(props.cam == 7){return;}
+      if(props.cam !== 8){return;}
       e.stopPropagation()    
       window.open(link, '_blank', 'noopener')  } 
   return (
@@ -94,14 +117,14 @@ const Sponsor = forwardRef((props,ref) => {
     </mesh> */}
 
 
-    <mesh position={[0,-3.5,0]}>
-    <cylinderGeometry args={[0.7,0.7,6]} />
+    <mesh position={[0,-0.5,0]}>
+    <cylinderGeometry args={[0.3,0.3,0.01]} />
     <FakeGlowMaterial falloff={1}
-    glowInternalRadius={0.3}
-    glowColor={"red"}
-    glowSharpness={0.5}
+    glowInternalRadius={0.1}
+    glowColor={"yellow"}
+    glowSharpness={1}
     side={"THREE.BackSide"}
-    opacity={0.9}
+    opacity={0.7}
     depthTest={false}
     ></FakeGlowMaterial>
     </mesh>
@@ -109,16 +132,7 @@ const Sponsor = forwardRef((props,ref) => {
     <cylinderGeometry args={[0.7,0.7,6]} />
     <HolographicMaterial {...HoloProps} ></HolographicMaterial>
     </mesh> */}
-    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[-0.2,-0.9,0]}></HoloPuck>
-
-
-
-
-
-
-
-
-
+    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.65,0]}></HoloPuck>
     <Sparkles noise={2} count={20} speed={0.1} scale={1.4} size={1.2} color={props.pack}></Sparkles>
    
     

@@ -31,7 +31,7 @@ export default forwardRef(( props,ref ) => {
     
   
     return (
-      <group ref={ref} position={[-5.7, -2.4, -1]}>
+      <group ref={ref} position={[-5.7, -1.4, -1]}>
         <Text3D
           ref={textRef}
           color="#FFFFFF"

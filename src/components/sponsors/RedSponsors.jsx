@@ -6,24 +6,29 @@ import FakeGlowMaterial from '../../utils/FakeGlowMaterial.jsx'
 import HolographicMaterial from '../../utils/HolographicMaterial.jsx'
 import HoloPuck from './Holopuck.jsx'
 
+const isMobile = window.innerWidth < 768
 
-
-const images = 
+const images = !isMobile ?
 [
   // Front
-  { position: [1.2, 0, 6], url:"logos/Pearls.png",pack:"red",link:"https://www.pearls.consulting/" },
-  { position: [-1.2, 0, 6], url: "logos/EY.png",pack:"red",link:"https://www.ey.com/en_tn"},
+  { position: [1, 0, 6], url:"logos/red/Sagemcom.png",pack:"red",link:"https://sagemcom.com/" },
+  { position: [-1, 0, 6], url: "logos/red/Orange.png",pack:"red",link:"https://www.orange.tn/"},
+]
+
+:
+
+[
+  // Front
+  { position: [0.8, 0, 6], url:"logos/red/Sagemcom.png",pack:"red",link:"https://sagemcom.com/" },
+  { position: [-0.8, 0, 6], url: "logos/red/Orange.png",pack:"red",link:"https://www.orange.tn/"},
 ]
 
 
 
-
-
-
-const Sponsors = forwardRef((props , ref) => {
+const RedSponsors = forwardRef((props , ref) => {
     return (
     <group ref={ref} position={props.position} >
-      {images.map((props) => <Sponsor key={props.url} {...props} /> /* prettier-ignore */)}
+      {images.map((options) => <Sponsor cam={props.cam} key={options.url} {...options} /> /* prettier-ignore */)}
     </group>
     
   )
@@ -39,16 +44,20 @@ const Sponsor = forwardRef((props,ref) => {
   const AspectRatio =  w > h ? w / h : h / w;
   const link = props.link
 
+  const [hovered, setHovered] = useState(false)
+
+useEffect(() => {
+  document.body.style.cursor = hovered ? 'pointer' : 'auto'
+}, [hovered])
+
 
   const logoScale =(props)=>{
-    if(props.url == "logos/EY.png"){
-      return[2.4,1.75,AspectRatio]
-    }
+   
 
     if (props.pack == "blue"){
       return [2,0.75,AspectRatio]
     }else if (props.pack =="red") {
-      return [1.25,0.75,0.75*AspectRatio]
+      return [0.5,0.5,0.75*AspectRatio]
     }
     else return [1,0.5,0.75*AspectRatio]
 
@@ -71,13 +80,14 @@ const Sponsor = forwardRef((props,ref) => {
     
     const handleSponsorClick = (e,link) => {
       console.log(props.cam)
-      if(props.cam == 6){return;}
+      if(props.cam !== 7){return;}
       e.stopPropagation()    
       window.open(link, '_blank', 'noopener')  } 
 
   return (
-    <mesh ref={ref} position={props.position}  >
-    <sprite onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
+    <mesh ref={ref} position={props.position}>
+    <sprite onPointerOver={() => setHovered(true)}
+    onPointerOut={() => setHovered(false)}  onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
       <spriteMaterial
         attach="material"
         map={logoTexture}
@@ -95,7 +105,7 @@ const Sponsor = forwardRef((props,ref) => {
     depthTest={false}></FakeGlowMaterial>
     </mesh> */}
   
-    <mesh position={[0,-0.6,0]}>
+    {/* <mesh position={[0,-0.6,0]}>
     <cylinderGeometry args={[0.75,0.3,0.4]} />
     <FakeGlowMaterial falloff={1}
     glowInternalRadius={0.3}
@@ -105,12 +115,26 @@ const Sponsor = forwardRef((props,ref) => {
     opacity={0.9}
     depthTest={false}
     ></FakeGlowMaterial>
+    </mesh> */}
+    <mesh position={[0,-0.5,0]}>
+    <cylinderGeometry args={[0.3,0.3,0.1]} />
+    <FakeGlowMaterial falloff={1}
+    glowInternalRadius={0.2}
+    glowColor={"red"}
+    glowSharpness={0.8}
+    side={"THREE.BackSide"}
+    opacity={0.9}
+    depthTest={false}
+    ></FakeGlowMaterial>
+
+
+    <HolographicMaterial {...HoloProps}></HolographicMaterial>
     </mesh>
     {/* <mesh position={[0,-3.5,0]}>
     <cylinderGeometry args={[0.7,0.7,6]} />
     <HolographicMaterial {...HoloProps} ></HolographicMaterial>
     </mesh> */}
-    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.9,0]}></HoloPuck>
+    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.6,0]}></HoloPuck>
     <Sparkles noise={2} count={20} speed={0.1} scale={1.4} size={1.2} color={props.pack}></Sparkles>
    
     
@@ -129,4 +153,4 @@ const Sponsor = forwardRef((props,ref) => {
 
 
 
-export default Sponsors
+export default RedSponsors

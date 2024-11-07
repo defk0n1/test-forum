@@ -7,10 +7,12 @@ import HolographicMaterial from '../../utils/HolographicMaterial.jsx'
 import HoloPuck from './Holopuck.jsx'
 
 
+const isMobile  = window.innerWidth < 768
+
 const images = 
 [
   // Front
-  { position: [0, 0, 7] , url: "logos/Cognira.png",pack:"blue", link : "https://cognira.com/"},
+  { position: [0, 0, 7] , url: "logos/blue/Cognira.png",pack:"blue", link : "https://cognira.com/"},
 
 ]
 
@@ -39,9 +41,16 @@ const Sponsor = forwardRef((props,ref) => {
   const AspectRatio =  w > h ? w / h : h / w;
   const link = props.link
 
+  const [hovered, setHovered] = useState(false)
+
+useEffect(() => {
+  document.body.style.cursor = hovered ? 'pointer' : 'auto'
+}, [hovered])
+
+
   const logoScale =(props)=>{
     if (props.pack == "blue"){
-      return [2,0.55,AspectRatio]
+      return [1.2*1,1.2*0.3,AspectRatio]
     }else if (props.pack =="red") {
       return [1.25,0.75,0.75*AspectRatio]
     }
@@ -51,7 +60,7 @@ const Sponsor = forwardRef((props,ref) => {
 
   const handleSponsorClick = (e,link) => {
     console.log(props.cam)
-    if(props.cam == 5){return;}
+    if(props.cam !== 6){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 
 
@@ -62,7 +71,7 @@ const Sponsor = forwardRef((props,ref) => {
     scanlineSize: 2.0,
     hologramBrightness: 0.9,
     signalSpeed: 0.15,
-    hologramColor: props.pack,
+    hologramColor: "props.pack",
     enableBlinking: false,
     enabled: true,
   
@@ -71,24 +80,27 @@ const Sponsor = forwardRef((props,ref) => {
 
   console.log(logoTexture)
   return (
-    <mesh  ref={ref} position={props.position}  >
-    <sprite onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
+    <mesh ref={ref} position={props.position}  >
+    <sprite onPointerOver={() => setHovered(true)}
+    onPointerOut={() => setHovered(false)} onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
       <spriteMaterial
         attach="material"
         map={logoTexture}
       />
     </sprite>
 
-    <mesh position={[0,-0.6,0]}>
-    <cylinderGeometry args={[0.95,0.3,0.4]} />
+    <mesh position={[0,-0.38,0]}>
+    <cylinderGeometry args={[0.3,0.3,0.01]} />
+
     <FakeGlowMaterial falloff={1}
-    glowInternalRadius={0.3}
-    glowColor={"white"}
-    glowSharpness={0.5}
+    glowInternalRadius={0.2}
+    glowColor={"#62EFFE"}
+    glowSharpness={0.8}
     side={"THREE.BackSide"}
     opacity={0.9}
     depthTest={false}
     ></FakeGlowMaterial>
+      
     </mesh>
     {/* <mesh position={[0,0.6,0]}>
     <cylinderGeometry args={[0.95,0.95,2]} />
@@ -100,8 +112,8 @@ const Sponsor = forwardRef((props,ref) => {
     opacity={0.1}
     depthTest={false}
     ></FakeGlowMaterial>    </mesh> */}
-    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.9,0]}></HoloPuck>
-    <Sparkles noise={2} count={10} speed={0.1} scale={0.1} size={1.2} color={"lightblue"}></Sparkles>
+    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.5,0]}></HoloPuck>
+    <Sparkles noise={2} count={20} speed={0.1} scale={0.6} size={1.2} color={"lightblue"}></Sparkles>
    
     
    

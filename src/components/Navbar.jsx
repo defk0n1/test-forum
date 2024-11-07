@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
-import { useRef } from "react";
+import React from 'react'
+import { useRef , useState} from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
 
 gsap.registerPlugin(useGSAP);
 
 
-const Navbar = () => {
+const Navbar = ({camchanger}) => {
     const navRef = useRef();
     useGSAP(() => {
         
@@ -15,64 +16,43 @@ const Navbar = () => {
          },"+3");
        
        });
+
+
+       const [menuOpen,setMenuOpen] = useState(false);
+
+       const handleHamburgerClick = () => {
+        setMenuOpen(!menuOpen);
+      }
     
-    const navelementStyle = {
-      padding:"10px",textShadow: "2px 2px 7px #62EFFE",filter: "drop-shadow(-10px 1px 20px #FFFFFF)", width:"7vw",
-      textAlign : "center"
-
-    }
-
-
-
-  
-    const navWrapper = {
-        marginLeft:"5vw",
-        marginRight:"5vw",
-        width:"90vw",
-        display: "flex",
-        flexWrap: "inherit",
-        alignItems: "center",
-        justifyContent: "space-between",
-        height:"10vh",
-        zIndex:"1000"
-        }
-    
-    const buttonStyle = {
-          background: 'linear-gradient(to bottom, #33bdef 5%, #019ad2 100%)',
-          backgroundColor: '#62EFFE',
-          borderRadius: '16px',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontWeight: 'bold',
-          padding: '10px 10px',
-          textDecoration: 'none',
-          textShadow: '0px -1px 0px #5b6178',
-          display:"flex",
-          flexDirection:"column",
-          justifyContent:"end"
-        };
+   
+   
 
       
   return (
     <div ref={navRef} style={{position:"fixed" , height:"10vh" , width:"100vw" , zIndex:"10", top:"0"
     }}>
-      <div style={navWrapper}>
-      <div style={{display:"flex", flexDirection:"row" , width:"100vw" , justifyContent:"space-evenly",color:"#FFFFFF", fontFamily:"Overpass" , fontSize:"0.99em", fontWeight:"800"
-}}>
-        <div style={navelementStyle}>SPEAKERS</div>
-        <div style={navelementStyle}>SCHEDULE</div>
-        <div style={navelementStyle}>VENUE</div>
-        <img src="brand.png" width="150"></img>
-
-        <div style={navelementStyle}>SPONSORS</div>
-        <div style={navelementStyle}>GALLERY</div>
-        <div style={buttonStyle}><p style={{margin:0}}>REGISTER NOW</p></div>
-
+      <div className='nav-wrapper'>
+      <div className={menuOpen ? "nav-els-wrapper-mobile":"nav-els-wrapper"}>      
+        <div onClick={()=>camchanger(0)} className={menuOpen ? "nav-element-mobile":"nav-element"} >HOME</div>
+        <div onClick={()=>camchanger(10)} className={menuOpen ? "nav-element-mobile":"nav-element"} >SPEAKERS</div>
+        <div className={menuOpen ? "nav-element-mobile":"nav-element"}>SCHEDULE</div>
+        <img className={menuOpen ? "nav-logo-mobile":"nav-logo"} src="brand.png"></img>
+        <div className={menuOpen ? "nav-element-mobile":"nav-element"}>VENUE</div>
+        <div onClick={()=>camchanger(6)} className={menuOpen ? "nav-element-mobile":"nav-element"} >SPONSORS</div>
+        <div onClick={()=>camchanger(5)} className={menuOpen ? "nav-element-mobile":"nav-element"} >GALLERY</div>
       </div>
+      <div href="#" onClick={()=>{handleHamburgerClick()}} className="toggle-button">
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+            </div>
 
 
       </div>
    </div>
+
+
+
   )
 }
 

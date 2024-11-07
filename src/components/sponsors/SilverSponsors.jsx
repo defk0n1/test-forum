@@ -6,15 +6,29 @@ import FakeGlowMaterial from '../../utils/FakeGlowMaterial.jsx'
 import HolographicMaterial from '../../utils/HolographicMaterial.jsx'
 import HoloPuck from './Holopuck.jsx'
 
+const isMobile = window.innerWidth < 768
 
-const images = 
+
+const images = !isMobile ?
 [
   // Front
-  { position: [0, -0.5, 7] , url: "logos/Cognira.png",pack:"silver",link:"https://cognira.com/"},
-  { position: [1.8, 0, 6], url:"logos/Pearls.png",pack:"silver",link:"https://www.pearls.consulting/" },
+  { position: [0, 0, 7] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
+  { position: [-1.8, 0, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/" },
+  { position: [1.8, 0, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+
 
 ]
 
+:
+
+[
+  // Front
+  { position: [0, -0.3, 7] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
+  { position: [-1, 0, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/"  },
+  { position: [1, 0, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+
+
+]
 
 
 
@@ -23,7 +37,7 @@ const images =
 const Sponsors = forwardRef((props , ref) => {
     return (
     <group ref={ref} position={props.position} >
-      {images.map((props) => <Sponsor key={props.url} {...props} /> /* prettier-ignore */)}
+      {images.map((options) => <Sponsor cam={props.cam} key={props.url} {...options} /> /* prettier-ignore */)}
     </group>
     
   )
@@ -41,18 +55,23 @@ const Sponsor = forwardRef((props,ref) => {
 
 
   const logoScale =(props)=>{
-    if (props.pack == "blue"){
-      return [2,0.75,AspectRatio]
-    }else if (props.pack =="red") {
-      return [1.25,0.75,0.75*AspectRatio]
+    if(props.url == "logos/silver/Decade.png" ){
+      return [1,0.3,0.15*AspectRatio]
+
     }
-    else return [1,0.5,0.75*AspectRatio]
+
+    if(props.url == "logos/silver/Minotore.png" ){
+      return [0.5,0.5,0.15*AspectRatio]
+
+    }
+    else
+     return [0.4,0.4,0.75*AspectRatio]
 
   }
 
   const handleSponsorClick = (e,link) => {
     console.log(props.cam)
-    if(props.cam == 8){return;}
+    if(props.cam !== 9){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 
 
@@ -90,14 +109,14 @@ const Sponsor = forwardRef((props,ref) => {
     depthTest={false}></FakeGlowMaterial>
     </mesh> */}
   
-    <mesh position={[0,-0.6,0]}>
-    <cylinderGeometry args={[0.75,0.3,0.4]} />
+    <mesh position={[0,-0.35,0]}>
+    <cylinderGeometry args={[0.3,0.3,0.01]} />
     <FakeGlowMaterial falloff={1}
-    glowInternalRadius={0.3}
-    glowColor={"red"}
+    glowInternalRadius={0.1}
+    glowColor={"silver"}
     glowSharpness={0.5}
     side={"THREE.BackSide"}
-    opacity={0.9}
+    opacity={0.6}
     depthTest={false}
     ></FakeGlowMaterial>
     </mesh>
@@ -105,7 +124,7 @@ const Sponsor = forwardRef((props,ref) => {
     <cylinderGeometry args={[0.7,0.7,6]} />
     <HolographicMaterial {...HoloProps} ></HolographicMaterial>
     </mesh> */}
-    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.9,0]}></HoloPuck>
+    <HoloPuck rotation={[Math.PI/4, 0, 0]} position={[0,-0.5,0]}></HoloPuck>
     <Sparkles noise={2} count={20} speed={0.1} scale={1.4} size={1.2} color={props.pack}></Sparkles>
    
     

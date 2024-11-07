@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react' 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { color } from 'three/webgpu';
 
 gsap.registerPlugin(useGSAP);
 
+const isMobile = window.innerWidth < 768
+
 const LandingBody = ({camPosition}) => {
+    
 
 
     const titleStyling = {
@@ -24,21 +28,73 @@ const LandingBody = ({camPosition}) => {
     
 
     const landingContent = [
-        {title:"void"},
-        {content:"Security is everyone’s responsibility. SecOps blends security into every layer of operations, enabling teams to tackle threats proactively without sacrificing speed. Discover how a SecOps approach can safeguard your business in an ever-evolving digital landscape.",title:"SecOps",titleStyle:titleStyling} ,  
-        {content:"Unlock speed and agility in software delivery! DevOps breaks down the walls between development and operations, bringing teams together to streamline processes, automate tasks, and release high-quality software faster. Join us to explore how DevOps can transform your workflow.",title:"DevOps",titleStyle:titleStyling},
-        {content:"Bring your machine learning models from the lab to the real world! MLOps ensures smooth deployment and management of AI solutions at scale, with continuous monitoring and updates to keep them sharp. Learn how MLOps can accelerate your AI journey.",title:"MLops",titleStyle:titleStyling},
-        {title:"void"},
-        {title:"void"},
-        {content:"",title:"Blue Sponsors",titleStyle:{color:"blue"}}, 
-        {content:"",title:"Red Sponsors",titleStyle:{color:"red"}},
-        {content:"",title:"Silver Sponsors",titleStyle:{color:"silver"}},
-        {content:"",title:"Gold Sponsors",titleStyle:{color:"gold"}}
+        {sponsor:false,title:"void"},
+        {sponsor:false,content:"SecOps, unites IT security and operations teams to protect and manage an organization's digital assets. Its goal is to reduce cyber risks and minimize the impact of security incidents. SecOps integrates security into all operationalprocesses, such as network monitoring, incident response, threat detection, and vulnerability management. By fostering collaboration between teams, SecOps creates a more secure, efficient, and resilient environment.",title:"SecOps",titleStyle:titleStyling} ,  
+        {sponsor:false,content:"DevOps combines development (Dev) and operations (Ops), uniting people, processes, and technology to deliver continuous value. It fosters collaboration across traditionally siloed roles like development, IT operations, quality engineering, and security, resulting in faster, more reliable product delivery. This approach helps teams better meet customer needs, build confidence in their applications, and accelerate business outcomes.",title:"DevOps",titleStyle:titleStyling},
+        {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLops",titleStyle:titleStyling},
+        {sponsor:false,title:"void"},
+        {sponsor:false,title:"void"},
+        {sponsor:true,content:"",title:"Our Blue Sponsor",titleStyle:{
+            color:"#62EFFE",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
+            textShadow: "1px 1px 7px #62EFFE",
+            textAlign:"center",
+            position:"relative",
+            top:"10vh",
+            width: isMobile ? "100vw"   : "70vw"
+
+          }}, 
+        {sponsor:true,content:"",title:"Red Sponsors",titleStyle:{
+            color:"#FF0000",
+            // WebkitBackgroundClip: 'text',
+            // filter: "drop-shadow(-10px 10px 20px #FF0000)", 
+            textShadow: "1px 1px 20px rgba(255, 0, 0, 0.5)",
+            textAlign:"center",
+            position:"relative",
+            top:"10vh",
+            width: isMobile ? "100vw"   : "70vw"
+
+
+           
+
+          }},
+        {sponsor:true,content:"",title:"Gold Sponsors",titleStyle:{
+            color:"gold",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(10px 1px 20px gold)", 
+            textShadow: "1px 1px 2px gold",
+            position:"relative",
+            top:"10vh",
+            textAlign:"center",
+            width: isMobile ? "100vw"   : "70vw"
+
+
+           
+
+          }},
+        {sponsor:true,content:"",title:"Silver Sponsors",titleStyle:{
+            color:"silver",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px silver)", 
+            textShadow: "1px 1px 2px silver",
+            position:"relative",
+            top:"10vh",
+
+            textAlign:"center",
+            width: isMobile ? "100vw"   : "70vw"
+
+
+          }},
+          {sponsor:false,title:"void"},
+          {sponsor:false,title:"void"},
+
+
     
 ]
 
     const currentContent = landingContent[camPosition]
-    const bodyStyling = {
+    const bodyStyling = !isMobile ? {
         display:"flex",
         flexDirection:"column",
         justifyContent:"space-evenly",
@@ -53,7 +109,24 @@ const LandingBody = ({camPosition}) => {
         fontFamily: "Overpass",
         fontSize:"1em"
     
-    }
+    } :
+    {
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"space-evenly",
+        textAlign:"center",
+        color:"white" ,
+        height:"80vh",
+        width:"80vw",
+        paddingTop:"10vh",
+        paddingBottom:"10vh",
+        paddingLeft:"10vw",
+        paddingRight:"10vw",
+        fontFamily: "Overpass",
+        fontSize:"1em"
+    
+    } 
+
 
    
     const TitleRef = useRef();
@@ -69,10 +142,16 @@ const LandingBody = ({camPosition}) => {
     console.log(currentContent)
     
 
+    if(currentContent.sponsor){
+        return(
+        <h1 style={currentContent.titleStyle} ref={TitleRef}>
+            {currentContent.title}
+        </h1>
+        )
+    }
 
 
-
-
+  else
   return (
     <div style={bodyStyling}>
         <div style={{margin:0}}>
@@ -80,7 +159,7 @@ const LandingBody = ({camPosition}) => {
                 {currentContent.title == "void" ? "" : currentContent.title}
             </h1>
         </div>
-       <div>
+       <div style={currentContent.title == "void" ? {display:"none"} : {}}>
             <p style={subStyling} ref={SubRef}>
             {currentContent.title == "void" ? "" : currentContent.content}           
             </p>

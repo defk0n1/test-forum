@@ -4,21 +4,25 @@ import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame , useThree } from '@react-three/fiber'
 import Navbar from './Navbar'
-import Secops from './Secops'
 import ForumLogo from './ForumLogo'
 import LandingBody from './LandingBody'
 import LandingWrapper from './LandingWrapper'
 import VideoScreen from './Video.jsx'
-import PostProcessingEffects from '../utils/Effects.jsx'
 import Carousel from './Carousel.jsx'
 import Countdown from './Countdown.jsx'
-import Sponsors from './sponsors/Sponsors.jsx'
+import BlueSponsors from './sponsors/BlueSponsors.jsx'
 import RedSponsors from './sponsors/RedSponsors.jsx'
 import GoldSponsors from './sponsors/GoldSponsors.jsx'
 import SilverSponsors from './sponsors/SilverSponsors.jsx'
+import Speakers from './Speakers.jsx'
+
+import upIcon from "/up.svg";
+import RegisterButton from './RegisterButton.jsx'
+
 
 
 import { MathUtils } from 'three';
+import Keynotes from './Keynotes.jsx'
 
 
 const isMobile = window.innerWidth < 768
@@ -67,7 +71,7 @@ function ResizableCamera() {
 
 const Test = () => {
 
-  const cameraFov = isMobile ? 120 : 50
+  const cameraFov = isMobile ? 90 : 50
   const cameraAspect = window.innerWidth / window.innerHeight
   
   const initcameraPos = isMobile ? [0, 1, 1] : [0, 100, 13]
@@ -77,26 +81,55 @@ const Test = () => {
   const [downClicked,setDownClick] = useState(false)
 
   const [currCamPosition , setCurrCamPosition] = useState(0)
+  const upbuttonRef = useRef(null);
+  const downbuttonRef = useRef(null);
+
+
 
   
 
   const handleUpClick = () => {
+    if (upbuttonRef.current && !upbuttonRef.current.disabled && downbuttonRef.current && !downbuttonRef.current.disabled) {
+      upbuttonRef.current.disabled = true;
+      downbuttonRef.current.disabled = true;
+
+      // Perform the action
+      // After the action is complete, reset buttonRef.current.disabled to false
+    
     setUpClick(!upClicked)
-    if(currCamPosition == 9) {
+    if(currCamPosition == 11) {
       setCurrCamPosition(0)
+     
 
     }else{    
       setCurrCamPosition(currCamPosition+1)
     }
+    setTimeout(()=>{downbuttonRef.current.disabled = false;
+      upbuttonRef.current.disabled = false
+    },1300)
+  }
   }
   const handleDownClick = () => {
+    if (downbuttonRef.current && !downbuttonRef.current.disabled && upbuttonRef.current && !upbuttonRef.current.disabled) {
+      downbuttonRef.current.disabled = true;
+      upbuttonRef.current.disabled = true;
+
+      // Perform the action
+      // After the action is complete, reset buttonRef.current.disabled to false
+   
+    
     setDownClick(!downClicked)
     if(currCamPosition == 0) {
-      setCurrCamPosition(9)
-
+      return
     }else{    
       setCurrCamPosition(currCamPosition-1)
     }
+    setTimeout(()=>{   downbuttonRef.current.disabled = false;
+      upbuttonRef.current.disabled = false
+
+
+    },1300)
+  }
 
   }
 
@@ -111,20 +144,38 @@ const Test = () => {
 
  
   
-  <Navbar/>
-  <div style={{position:"absolute" , height:"10vh" , width:"100vw" , zIndex:"10",top:"80vh"}}>
-    <div style={{display:"flex",justifyContent:"space-evenly",position:"absolute" , width:"50vw" , height:"10vh",paddingLeft:"25vw",paddingRight:"25vw"}}>
-      <div onClick={handleUpClick} style={{width:"5vw" , backgroundColor:upClicked ? "green" : "red", textAlign:"center", display:"flex" , justifyContent:"center", flexDirection:"column"}}>
-      UP
-      </div>
-      <div onClick={handleDownClick} style={{width:"5vw" ,backgroundColor:downClicked ? "green" : "red", textAlign:"center", display:"flex" , justifyContent:"center", flexDirection:"column"}}>
-      DOWN 
+  <Navbar camchanger={setCurrCamPosition}/>
+
+
+
+
+
+    {!isMobile ?
+  <div style={{position:"absolute" , height:"100vh" , width:"fit-content" , zIndex:"10",right:"5vw",display:"flex",justifyItems:"center"}}>
+    <div style={{display:"flex", flexDirection:"column",justifyContent:"center" , gap:"5vh"}}>
+      
+      <div ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
+      <img src={upIcon} alt="" />
       </div>  
-
-    </div>
-  
-
+      <div ref={upbuttonRef} onClick={handleUpClick} >
+      <img  src={upIcon} style={{transform: "rotate(180deg)"}} alt="" />
+      </div>
+    </div> 
   </div>  
+
+
+      : <div style={{ position: "absolute", height: "10vh", width: "100vw", zIndex: "10", bottom: "5vw", display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "5vh" }}>
+
+          <div  ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
+            <img src={upIcon} alt="" />
+          </div>
+          <div ref={upbuttonRef} onClick={handleUpClick}>
+            <img src={upIcon} style={{ transform: "rotate(180deg)" }} alt="" />
+          </div>
+        </div>
+      </div>  
+  }
   <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" }}> 
   <Canvas dpr={[1, 2]}  alpha={'true'} >
       <ResizableCamera></ResizableCamera>
@@ -136,6 +187,7 @@ const Test = () => {
   <LandingWrapper camPosition={currCamPosition}>
     <LandingBody camPosition={currCamPosition}></LandingBody>
   </LandingWrapper>
+  <RegisterButton></RegisterButton>
   
 
 </div>
@@ -175,12 +227,17 @@ const Scene = ({camPosition}) => {
   const redSponsorsRef  = useRef()
   const goldSponsorsRef = useRef()
   const silverSponsorsRef = useRef()
+  const speakersRef = useRef()
+  const keynotesRef = useRef()
+
 
 
 
   const elementRefs = [box2ref , box1ref , box3ref, videoref,carouselRef,sponsorsRef,redSponsorsRef,
     goldSponsorsRef,
-    silverSponsorsRef ]
+    silverSponsorsRef,
+    speakersRef,
+    keynotesRef ]
   const hideElts = ()=>{
     elementRefs.forEach(element => {
       element.current.visible = false; 
@@ -231,7 +288,7 @@ const Scene = ({camPosition}) => {
         carouselLerped = false
       }
       if(camPosition == 5 && !carouselLerped){
-        state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,isMobile ? currentBox.position.z+4 : currentBox.position.z+10),.02)
+        state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y,isMobile ? currentBox.position.z+4 : currentBox.position.z+10),.03)
         state.camera.updateProjectionMatrix()
         setTimeout(() => {
           carouselLerped = true
@@ -241,7 +298,7 @@ const Scene = ({camPosition}) => {
       if(camPosition == 5 && carouselLerped){
         return
       }
-      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y, isMobile ? currentBox.position.z+9 : currentBox.position.z+10 ),.02)
+      state.camera.position.lerp(vec.set(currentBox.position.x,currentBox.position.y, isMobile ? currentBox.position.z+9 : currentBox.position.z+10 ),.03)
       state.camera.updateProjectionMatrix()
 
     }
@@ -253,7 +310,7 @@ const Scene = ({camPosition}) => {
 
 
 
-      state.camera.position.lerp(vec.set(0, 1, 13),.1)
+      state.camera.position.lerp(vec.set(0, 1, 16),.1)
       box1ref.current.position.set(
         7 * Math.cos(date)  * u.x + 3.5 * Math.sin(date) * 2 * v.x,
         7 * Math.cos(date)  * u.y + 3.5 * Math.sin(date) * 2 * v.y,
@@ -384,17 +441,20 @@ const Scene = ({camPosition}) => {
 
  
 
-  <VideoScreen ref={videoref}/>
+  <VideoScreen cam={camPosition} ref={videoref}/>
 
   <Carousel cam={camPosition}  ref={carouselRef} />
     {/* <SupComLogo /> */}
   <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
   <Countdown ref={countdownRef} eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
    <>
-  <Sponsors cam={camPosition}   ref={sponsorsRef} position={[0,0.3,-60]}/>
+  <BlueSponsors cam={camPosition}   ref={sponsorsRef} position={[0,0.3,-60]}/>
   <RedSponsors cam={camPosition}  ref={redSponsorsRef} position={[0,0.3,-80]}/>
   <GoldSponsors cam={camPosition}  ref={goldSponsorsRef} position={[0,0.3,-90]}/>
   <SilverSponsors cam={camPosition}  ref={silverSponsorsRef} position={[0,0.3,-100]}/>
+  <Speakers cam={camPosition}  ref={speakersRef} position={[0,0.3,-120]}/>
+  <Keynotes cam={camPosition}  ref={keynotesRef} position={[0,0.3,-130]}/>
+
   </>
 
 
@@ -402,7 +462,7 @@ const Scene = ({camPosition}) => {
   <group>
         <Center>
           <Sparkles ref={sparklesRef} position={[0, 0, 0]} speed={2} scale={7.4} size={4} color={"#ADD8E6"} />
-          <Stars radius={100} depth={3} count={4000} factor={3} saturation={0} fade speed={3} />
+          <Stars radius={1000} depth={3} count={4000} factor={3} saturation={0} fade speed={3} />
         </Center>
     </group>
  

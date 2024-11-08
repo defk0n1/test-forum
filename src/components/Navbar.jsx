@@ -35,9 +35,9 @@ const Navbar = ({camchanger}) => {
       <div className={menuOpen ? "nav-els-wrapper-mobile":"nav-els-wrapper"}>      
         <div onClick={()=>camchanger(0)} className={menuOpen ? "nav-element-mobile":"nav-element"} >HOME</div>
         <div onClick={()=>camchanger(10)} className={menuOpen ? "nav-element-mobile":"nav-element"} >SPEAKERS</div>
-        <div className={menuOpen ? "nav-element-mobile":"nav-element"}>SCHEDULE</div>
+        <div onClick={()=>camchanger(13)} className={menuOpen ? "nav-element-mobile":"nav-element"}>SCHEDULE</div>
         <img className={menuOpen ? "nav-logo-mobile":"nav-logo"} src="brand.png"></img>
-        <div className={menuOpen ? "nav-element-mobile":"nav-element"}>VENUE</div>
+        <div onClick={()=>camchanger(12)} className={menuOpen ? "nav-element-mobile":"nav-element"}>VENUE</div>
         <div onClick={()=>camchanger(6)} className={menuOpen ? "nav-element-mobile":"nav-element"} >SPONSORS</div>
         <div onClick={()=>camchanger(5)} className={menuOpen ? "nav-element-mobile":"nav-element"} >GALLERY</div>
       </div>
@@ -45,7 +45,7 @@ const Navbar = ({camchanger}) => {
                 <span className="bar"></span>
                 <span className="bar"></span>
                 <span className="bar"></span>
-            </div>
+      </div>
 
 
       </div>

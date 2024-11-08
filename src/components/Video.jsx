@@ -10,7 +10,7 @@ const VideoScreen  = forwardRef((props,ref) => {
 
   const [video] = useState(() => {
     const vid = document.createElement("video");
-    vid.src = "sample-5s.mp4";
+    vid.src = "Teaser.mp4";
     vid.crossOrigin = "Anonymous";
     vid.loop = true;
     vid.muted = false;

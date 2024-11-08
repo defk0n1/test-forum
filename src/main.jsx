@@ -6,18 +6,20 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import RegistrationForm from './components/Registration.jsx';
+import Schedule from './components/Schedule.jsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
+
   },
   {
-    path: "/register",
-    element: <RegistrationForm/>,
-  },
+    path: "/timeline",
+    element: <Schedule/>,
+    
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

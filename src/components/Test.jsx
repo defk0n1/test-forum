@@ -15,9 +15,12 @@ import RedSponsors from './sponsors/RedSponsors.jsx'
 import GoldSponsors from './sponsors/GoldSponsors.jsx'
 import SilverSponsors from './sponsors/SilverSponsors.jsx'
 import Speakers from './Speakers.jsx'
-
+import Venue from './Venue.jsx'
+import Program from './Program.jsx'
 import upIcon from "/up.svg";
 import RegisterButton from './RegisterButton.jsx'
+import Schedule from './Schedule.jsx'
+
 
 
 
@@ -97,7 +100,7 @@ const Test = () => {
       // After the action is complete, reset buttonRef.current.disabled to false
     
     setUpClick(!upClicked)
-    if(currCamPosition == 11) {
+    if(currCamPosition == 13) {
       setCurrCamPosition(0)
      
 
@@ -151,7 +154,7 @@ const Test = () => {
 
 
     {!isMobile ?
-  <div style={{position:"absolute" , height:"100vh" , width:"fit-content" , zIndex:"10",right:"5vw",display:"flex",justifyItems:"center"}}>
+  <div style={{position:"fixed" , height:"100vh" , width:"fit-content" , zIndex:"10",right:"5vw",display:"flex",justifyItems:"center",zIndex:"10000"}}>
     <div style={{display:"flex", flexDirection:"column",justifyContent:"center" , gap:"5vh"}}>
       
       <div ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
@@ -164,7 +167,7 @@ const Test = () => {
   </div>  
 
 
-      : <div style={{ position: "absolute", height: "10vh", width: "100vw", zIndex: "10", bottom: "5vw", display: "flex", justifyContent: "center" }}>
+      : <div style={{ position: "absolute", height: "10vh", width: "100vw", zIndex: "10", bottom: "10vw", display: "flex", justifyContent: "center" ,zIndex:"10000"}}>
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "5vh" }}>
 
           <div  ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
@@ -176,7 +179,7 @@ const Test = () => {
         </div>
       </div>  
   }
-  <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" }}> 
+  <div style={{position:"fixed", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" ,top:"0"}}> 
   <Canvas dpr={[1, 2]}  alpha={'true'} >
       <ResizableCamera></ResizableCamera>
       <PerspectiveCamera makeDefault />
@@ -191,6 +194,8 @@ const Test = () => {
   
 
 </div>
+{/* <Schedule/>  */}
+
 </>
 )
 }
@@ -229,7 +234,8 @@ const Scene = ({camPosition}) => {
   const silverSponsorsRef = useRef()
   const speakersRef = useRef()
   const keynotesRef = useRef()
-
+  const venueRef = useRef()
+  const programRef = useRef()
 
 
 
@@ -237,7 +243,9 @@ const Scene = ({camPosition}) => {
     goldSponsorsRef,
     silverSponsorsRef,
     speakersRef,
-    keynotesRef ]
+    keynotesRef,
+    venueRef,
+    programRef ]
   const hideElts = ()=>{
     elementRefs.forEach(element => {
       element.current.visible = false; 
@@ -446,7 +454,7 @@ const Scene = ({camPosition}) => {
   <Carousel cam={camPosition}  ref={carouselRef} />
     {/* <SupComLogo /> */}
   <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
-  <Countdown ref={countdownRef} eventDate={new Date("2024-12-31T00:00:00")}></Countdown>
+  <Countdown ref={countdownRef} eventDate={new Date("2024-11-13T00:00:00")}></Countdown>
    <>
   <BlueSponsors cam={camPosition}   ref={sponsorsRef} position={[0,0.3,-60]}/>
   <RedSponsors cam={camPosition}  ref={redSponsorsRef} position={[0,0.3,-80]}/>
@@ -454,6 +462,9 @@ const Scene = ({camPosition}) => {
   <SilverSponsors cam={camPosition}  ref={silverSponsorsRef} position={[0,0.3,-100]}/>
   <Speakers cam={camPosition}  ref={speakersRef} position={[0,0.3,-120]}/>
   <Keynotes cam={camPosition}  ref={keynotesRef} position={[0,0.3,-130]}/>
+  <Venue cam={camPosition}  ref={venueRef} position={[0,0.3,-140]}/>
+  <Program cam={camPosition}  ref={programRef} position={[0,0.3,-160]}/>
+
 
   </>
 

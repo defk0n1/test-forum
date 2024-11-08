@@ -10,7 +10,7 @@ const images =
   // Front
   { position: [2, 0, 6] , url: "speakers/keynote1.png",pack:"blue", link : "https://cognira.com/" ,id:0},
   { position: [0, 0, 0] , url: "speakers/keynote2.png",pack:"blue", link : "https://cognira.com/" ,id:1},
-  { position: [-2, 0, 6] , url: "speakers/workshop1.png",pack:"blue", link : "https://cognira.com/" ,id:2},
+  { position: [-2, 0, 6] , url: "speakers/keynote3.png",pack:"blue", link : "https://cognira.com/" ,id:2},
 
 
 ]

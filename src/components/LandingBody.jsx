@@ -1,9 +1,12 @@
-import { useEffect, useRef } from 'react' 
+import { Suspense, useRef } from 'react' 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { color } from 'three/webgpu';
+import Loading from './Loading.jsx';
+import Schedule from './Schedule.jsx';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(useGSAP);
+
 
 const isMobile = window.innerWidth < 768
 
@@ -28,12 +31,12 @@ const LandingBody = ({camPosition}) => {
     
 
     const landingContent = [
-        {sponsor:false,title:"void"},
-        {sponsor:false,content:"SecOps, unites IT security and operations teams to protect and manage an organization's digital assets. Its goal is to reduce cyber risks and minimize the impact of security incidents. SecOps integrates security into all operationalprocesses, such as network monitoring, incident response, threat detection, and vulnerability management. By fostering collaboration between teams, SecOps creates a more secure, efficient, and resilient environment.",title:"SecOps",titleStyle:titleStyling} ,  
-        {sponsor:false,content:"DevOps combines development (Dev) and operations (Ops), uniting people, processes, and technology to deliver continuous value. It fosters collaboration across traditionally siloed roles like development, IT operations, quality engineering, and security, resulting in faster, more reliable product delivery. This approach helps teams better meet customer needs, build confidence in their applications, and accelerate business outcomes.",title:"DevOps",titleStyle:titleStyling},
-        {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLops",titleStyle:titleStyling},
-        {sponsor:false,title:"void"},
-        {sponsor:false,title:"void"},
+        {sponsor:false,title:"void",venue:false},
+        {sponsor:false,content:"SecOps, unites IT security and operations teams to protect and manage an organization's digital assets. Its goal is to reduce cyber risks and minimize the impact of security incidents. SecOps integrates security into all operationalprocesses, such as network monitoring, incident response, threat detection, and vulnerability management. By fostering collaboration between teams, SecOps creates a more secure, efficient, and resilient environment.",title:"SecOps",titleStyle:titleStyling,venue:false} ,  
+        {sponsor:false,content:"DevOps combines development (Dev) and operations (Ops), uniting people, processes, and technology to deliver continuous value. It fosters collaboration across traditionally siloed roles like development, IT operations, quality engineering, and security, resulting in faster, more reliable product delivery. This approach helps teams better meet customer needs, build confidence in their applications, and accelerate business outcomes.",title:"DevOps",titleStyle:titleStyling,venue:false},
+        {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLops",titleStyle:titleStyling,venue:false},
+        {sponsor:false,title:"void",venue:false},
+        {sponsor:false,title:"void",venue:false},
         {sponsor:true,content:"",title:"Our Blue Sponsor",titleStyle:{
             color:"#62EFFE",
             WebkitBackgroundClip: 'text',
@@ -44,7 +47,7 @@ const LandingBody = ({camPosition}) => {
             top:"10vh",
             width: isMobile ? "100vw"   : "70vw"
 
-          }}, 
+          },venue:false}, 
         {sponsor:true,content:"",title:"Red Sponsors",titleStyle:{
             color:"#FF0000",
             // WebkitBackgroundClip: 'text',
@@ -58,7 +61,7 @@ const LandingBody = ({camPosition}) => {
 
            
 
-          }},
+          },venue:false},
         {sponsor:true,content:"",title:"Gold Sponsors",titleStyle:{
             color:"gold",
             WebkitBackgroundClip: 'text',
@@ -72,7 +75,7 @@ const LandingBody = ({camPosition}) => {
 
            
 
-          }},
+          },venue:false},
         {sponsor:true,content:"",title:"Silver Sponsors",titleStyle:{
             color:"silver",
             WebkitBackgroundClip: 'text',
@@ -85,9 +88,35 @@ const LandingBody = ({camPosition}) => {
             width: isMobile ? "100vw"   : "70vw"
 
 
-          }},
-          {sponsor:false,title:"void"},
-          {sponsor:false,title:"void"},
+          },venue:false},
+          {sponsor:true,content:"",title:"Workshop Mentors",titleStyle:{
+            color:"#62EFFE",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
+            textShadow: "1px 1px 7px #62EFFE",
+            textAlign:"center",
+            position:"relative",
+            top:"10vh",
+            width: isMobile ? "100vw"   : "70vw"
+
+
+          },venue:false}   , 
+          {sponsor:true,content:"",title:"Keynote Speakers",titleStyle:{
+            color:"#62EFFE",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
+            textShadow: "1px 1px 7px #62EFFE",
+            textAlign:"center",
+            position:"relative",
+            top:"10vh",
+            width: isMobile ? "100vw"   : "70vw"
+
+
+          },venue:false} ,
+          {sponsor:false,venue:true,title:"void"},
+          {sponsor:false,title:"void",venue:false,schedule:true}
+
+
 
 
     
@@ -140,7 +169,11 @@ const LandingBody = ({camPosition}) => {
 
 
     console.log(currentContent)
+    if(currentContent.schedule){
+        return <Schedule></Schedule>
+    }
     
+
 
     if(currentContent.sponsor){
         return(
@@ -151,8 +184,38 @@ const LandingBody = ({camPosition}) => {
     }
 
 
-  else
-  return (
+    else if(currentContent.venue){
+    return(
+        <section id="venue" className="section container scroll-section">
+        <div className="row">
+
+            <div ref={SubRef} className="localisation-info col-sm-4 col-md-6 text-center p-3">
+                <div>
+                    <h4 ref={TitleRef}>HIGHER SCHOOL OF COMMUNICATION OF TUNIS, Ariana</h4>
+                    <p>
+                        Sup'Com is a leading college for telecommunications engineers in
+                        Tunisia. Affiliated to the University of Carthage, the Higher School
+                        of Communications of Tunis (Sup'Com) is among the top-ranked schools
+                        in Tunisia in the national admission exam for engineering schools.
+                        Over and above its national and international reputation, Sup'Com is
+                        known for the excellence of its academic training and the high
+                        competence level of its graduates and researchers.
+                    </p>
+                </div>
+            </div>
+            <div className="col-md-6 col-sm-4 p-0 d-flex align-items-center">
+                <iframe src="https://maps.google.com/maps?q=supcom&t=&z=17&ie=UTF8&iwloc=&output=embed" height="100%"
+                    width="100%"></iframe>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    )
+  }
+  else return (
     <div style={bodyStyling}>
         <div style={{margin:0}}>
             <h1 style={currentContent.titleStyle} ref={TitleRef}>

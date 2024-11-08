@@ -56,6 +56,13 @@ const Sponsor = forwardRef((props,ref) => {
   const AspectRatio =  w > h ? w / h : h / w;
   const link = props.link
 
+  const [hovered, setHovered] = useState(false)
+
+useEffect(() => {
+  document.body.style.cursor = hovered ? 'pointer' : 'auto'
+}, [hovered])
+
+
 
   const logoScale =(props)=>{
     if(props.url == "logos/gold/SIEMENS.png" ){
@@ -93,7 +100,8 @@ const Sponsor = forwardRef((props,ref) => {
       e.stopPropagation()    
       window.open(link, '_blank', 'noopener')  } 
   return (
-    <mesh ref={ref} position={props.position}  >
+    <mesh onPointerOver={() => setHovered(true)}
+    onPointerOut={() => setHovered(false)} ref={ref} position={props.position}  >
     <sprite onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
       <spriteMaterial
         attach="material"

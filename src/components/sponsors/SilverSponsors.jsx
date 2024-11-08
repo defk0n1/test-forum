@@ -52,7 +52,12 @@ const Sponsor = forwardRef((props,ref) => {
   const w = logoTexture.source.data.naturalWidth 
   const AspectRatio =  w > h ? w / h : h / w;
   const link = props.link
+  const [hovered, setHovered] = useState(false)
 
+  useEffect(() => {
+    document.body.style.cursor = hovered ? 'pointer' : 'auto'
+  }, [hovered])
+  
 
   const logoScale =(props)=>{
     if(props.url == "logos/silver/Decade.png" ){
@@ -91,7 +96,7 @@ const Sponsor = forwardRef((props,ref) => {
 
   return (
     <mesh ref={ref} position={props.position}  >
-    <sprite onClick={(e)=>{handleSponsorClick(e,link)}} scale={logoScale(props)}>
+    <sprite scale={logoScale(props)}>
       <spriteMaterial
         attach="material"
         map={logoTexture}

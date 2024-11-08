@@ -3,7 +3,7 @@
     padding: 10px;
     text-shadow: 2px 2px 7px #62EFFE;
     filter: drop-shadow(-10px 1px 20px #FFFFFF);
-    width: 7vw;
+    width: fit-content;
     text-align: center;
   }
 
@@ -93,7 +93,8 @@
       display: flex;
     }
     .nav-logo-mobile{
-    display: none;        
+    display: none;   
+    padding-top: 30px;     
      }
      .nav-logo{
       width:150px;
@@ -107,6 +108,7 @@
         width: 100vw;
         background:linear-gradient(to bottom , #ffffff00 , #00000074 );
         justify-content: space-evenly;
+        backdrop-filter: blur(3px);
         color: #FFFFFF;
         font-family: 'Overpass', sans-serif;
         font-size: 0.99em;
@@ -131,6 +133,13 @@
         display:none;
         
     }
+    .nav-element-mobile {
+      padding:20px 0;      
+  }
+  .nav-element-mobile:hover {
+    color:#62EFFE;
+    cursor: pointer;
+  }
 
     .nav-wrapper{
 width: 100vw;    

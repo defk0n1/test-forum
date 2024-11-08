@@ -17,7 +17,6 @@ export default function HoloPuck(props) {
   
 
 
-  console.log(props)
 
   return (
     <group {...props} dispose={null}>

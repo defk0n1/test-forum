@@ -1,21 +1,27 @@
 
 import RegistrationForm from "./Registration";
-import {useState} from "react"
+import {useState , useRef} from "react"
 import { Modal } from "@mui/material";
+
+import gsap from "gsap";
+
+
+
+
+
 
 
 
 const RegisterButton = () => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [buttonRendered, setButtonRendered] = useState(true)
+  const handleOpen = () => {setOpen(true);setButtonRendered(false)} 
+  const handleClose = () => {setOpen(false); setButtonRendered(true)}
+  const regbuttonRef = useRef();
 
-   
-
-   
   return (
     <>
-    <div className="register-button-wrapper">
+    <div style={{display: buttonRendered ? "flex" : "none" }} ref={regbuttonRef} className="register-button-wrapper">
        <div onClick={handleOpen} className="register-button"><p style={{margin:0}}>REGISTER NOW</p></div>
         </div>
         <Modal

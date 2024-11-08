@@ -1,9 +1,8 @@
 import { Suspense, useRef } from 'react' 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Loading from './Loading.jsx';
 import Schedule from './Schedule.jsx';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+
 
 gsap.registerPlugin(useGSAP);
 
@@ -45,7 +44,8 @@ const LandingBody = ({camPosition}) => {
             textAlign:"center",
             position:"relative",
             top:"10vh",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
 
           },venue:false}, 
         {sponsor:true,content:"",title:"Red Sponsors",titleStyle:{
@@ -56,7 +56,9 @@ const LandingBody = ({camPosition}) => {
             textAlign:"center",
             position:"relative",
             top:"10vh",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
 
 
            
@@ -70,7 +72,9 @@ const LandingBody = ({camPosition}) => {
             position:"relative",
             top:"10vh",
             textAlign:"center",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
 
 
            
@@ -85,7 +89,9 @@ const LandingBody = ({camPosition}) => {
             top:"10vh",
 
             textAlign:"center",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
 
 
           },venue:false},
@@ -97,7 +103,9 @@ const LandingBody = ({camPosition}) => {
             textAlign:"center",
             position:"relative",
             top:"10vh",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
 
 
           },venue:false}   , 
@@ -109,7 +117,9 @@ const LandingBody = ({camPosition}) => {
             textAlign:"center",
             position:"relative",
             top:"10vh",
-            width: isMobile ? "100vw"   : "70vw"
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
 
 
           },venue:false} ,
@@ -163,17 +173,19 @@ const LandingBody = ({camPosition}) => {
 
 
     useGSAP(()=>{
+        if(currentContent.schedule){return;}
         gsap.from([TitleRef.current, SubRef.current], 
-        {opacity: 0, stagger: 0.1})
+        {opacity: 0, stagger: 0.01})
     },[currentContent])
 
 
     console.log(currentContent)
+   
     if(currentContent.schedule){
-        return <Schedule></Schedule>
-    }
-    
-
+        return(
+<Schedule/>
+)
+        }
 
     if(currentContent.sponsor){
         return(
@@ -188,10 +200,10 @@ const LandingBody = ({camPosition}) => {
     return(
         <section id="venue" className="section container scroll-section">
         <div className="row">
-
-            <div ref={SubRef} className="localisation-info col-sm-4 col-md-6 text-center p-3">
-                <div>
-                    <h4 ref={TitleRef}>HIGHER SCHOOL OF COMMUNICATION OF TUNIS, Ariana</h4>
+        <h1 ref={TitleRef} >Venue</h1>
+        <div ref={SubRef} className="localisation-info col-sm-6 col-md-6 text-center p-3">
+                <div className='p-md-3'>
+                    <h4>HIGHER SCHOOL OF COMMUNICATION OF TUNIS, Ariana</h4>
                     <p>
                         Sup'Com is a leading college for telecommunications engineers in
                         Tunisia. Affiliated to the University of Carthage, the Higher School
@@ -203,7 +215,7 @@ const LandingBody = ({camPosition}) => {
                     </p>
                 </div>
             </div>
-            <div className="col-md-6 col-sm-4 p-0 d-flex align-items-center">
+            <div className="col-md-6 col-sm-6 p-0 d-flex align-items-center">
                 <iframe src="https://maps.google.com/maps?q=supcom&t=&z=17&ie=UTF8&iwloc=&output=embed" height="100%"
                     width="100%"></iframe>
 

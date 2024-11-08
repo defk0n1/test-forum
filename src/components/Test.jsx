@@ -1,5 +1,5 @@
 import React from 'react'
-import {OrbitControls, useCursor, MeshReflectorMaterial, Image, Text3D, Environment,CameraControls, Box , Plane, Sky, Center,Torus, Sphere ,useTexture, Sparkles,Stars,PerspectiveCamera} from '@react-three/drei'
+import {Preload,Environment,Center,Torus, useTexture, Sparkles,Stars,PerspectiveCamera} from '@react-three/drei'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame , useThree } from '@react-three/fiber'
@@ -19,13 +19,13 @@ import Venue from './Venue.jsx'
 import Program from './Program.jsx'
 import upIcon from "/up.svg";
 import RegisterButton from './RegisterButton.jsx'
-import Schedule from './Schedule.jsx'
 
 
 
 
 import { MathUtils } from 'three';
 import Keynotes from './Keynotes.jsx'
+import { useLocation } from 'react-router-dom'
 
 
 const isMobile = window.innerWidth < 768
@@ -73,6 +73,15 @@ function ResizableCamera() {
 
 
 const Test = () => {
+  const location = useLocation();
+  const [currentPath, setCurrentPath] = useState(location.pathname);
+
+  useEffect(() => {
+    // Set the currentPath state whenever the location changes
+    setCurrentPath(location.pathname);
+    console.log(currentPath)
+  }, [location]);
+
 
   const cameraFov = isMobile ? 90 : 50
   const cameraAspect = window.innerWidth / window.innerHeight
@@ -154,7 +163,7 @@ const Test = () => {
 
 
     {!isMobile ?
-  <div style={{position:"fixed" , height:"100vh" , width:"fit-content" , zIndex:"10",right:"5vw",display:"flex",justifyItems:"center",zIndex:"10000"}}>
+  <div style={{position:"fixed" , height:"100vh" , width:"fit-content" ,right:"5vw",display:"flex",justifyItems:"center",zIndex:"10000"}}>
     <div style={{display:"flex", flexDirection:"column",justifyContent:"center" , gap:"5vh"}}>
       
       <div ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
@@ -167,7 +176,7 @@ const Test = () => {
   </div>  
 
 
-      : <div style={{ position: "absolute", height: "10vh", width: "100vw", zIndex: "10", bottom: "10vw", display: "flex", justifyContent: "center" ,zIndex:"10000"}}>
+      : <div style={{ position: "fixed", height: "10vh", width: "100vw", bottom: "10vw", display: "flex", justifyContent: "center" ,zIndex:"10000"}}>
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "5vh" }}>
 
           <div  ref={downbuttonRef} onClick={handleDownClick} style={{height:"fit-content" ,display: currCamPosition == 0 ? "none":""}}>
@@ -179,10 +188,13 @@ const Test = () => {
         </div>
       </div>  
   }
-  <div style={{position:"fixed", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" ,top:"0"}}> 
-  <Canvas dpr={[1, 2]}  alpha={'true'} >
+  <div style={{position:"relative", height:"100vh" , width:"100vw", background:"radial-gradient(#6398ad,#060b3b )" ,top:"0"}}> 
+  <Canvas style={{position:"fixed"}} dpr={[1, 2]}  alpha={'true'} >
       <ResizableCamera></ResizableCamera>
       <PerspectiveCamera makeDefault />
+      <Preload all />
+
+
       {/* <OrbitControls enabled={currCamPosition == 3} enablePan={false} enableRotate={false} enableZoom={false}  minPolarAngle={Math.PI/2} maxPolarAngle={Math.PI/2}/> */}
       <Scene camPosition={currCamPosition}></Scene>
       {/* <PostProcessingEffects/> */}
@@ -194,7 +206,6 @@ const Test = () => {
   
 
 </div>
-{/* <Schedule/>  */}
 
 </>
 )
@@ -361,17 +372,9 @@ const Scene = ({camPosition}) => {
 
   return (<>
     
-  {/* <axesHelper /> */}
-  {/* <color attach="background" args={['#000000']} /> */}
-  {/* <ambientLight intensity={1} color="0xF9E4BC"/> */}
-  {/* <directionalLight color="blue" position={[0, 0, 5]} /> */}
-  {/* <fog attach="fog" args={['#F9E4BC',0, 1000]} /> */}
-  {/* <Environment preset="night" background={true}/> */}
-  {/* <Environment files={['bg3.jpg']} background/> */}
+  
   {!isMobile && <Environment files={['right.png', 'left.png', 'top.png', 'bot.png', 'front.png', 'back.png']} background backgroundBlurriness={0.4} />}
-  {/* backgroundBlurriness={0.01} */}
 
-  {/* <Sky distance={450000} sunPosition={[0,0.1,0]} inclination={0} azimuth={0.25} /> */}
 
 
 <group>
@@ -452,7 +455,6 @@ const Scene = ({camPosition}) => {
   <VideoScreen cam={camPosition} ref={videoref}/>
 
   <Carousel cam={camPosition}  ref={carouselRef} />
-    {/* <SupComLogo /> */}
   <ForumLogo ref={forumLogoRef} rotation={[Math.PI/2,0,0]}/>
   <Countdown ref={countdownRef} eventDate={new Date("2024-11-13T00:00:00")}></Countdown>
    <>

@@ -14,11 +14,12 @@ const RegistrationForm = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://supcomje.in/forum/api/register", {
+            const response = await fetch("https://supcomje.in/forum/api/register", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json" // Added Content-Type header
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*" // Added Content-Type header
                 },
                 body: JSON.stringify({
                     email,

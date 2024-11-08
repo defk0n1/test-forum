@@ -4,9 +4,15 @@ import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import Navbar from './Navbar.jsx';
+import RegisterButton from './RegisterButton.jsx';
 
-gsap.registerPlugin(ScrollTrigger); 
 
+
+
+gsap.registerPlugin(ScrollTrigger);
+
+const isMobile = window.innerWidth < 768
 // Styled components for timeline items
 const DarkTimelineDot = styled(TimelineDot)({
   backgroundColor: '#0B3D91', // Dark blue
@@ -36,22 +42,23 @@ const DescriptionTypography = styled(Typography)({
 });
 
 const Schedule = () => {
-  const timelineRef = useRef(null);
-
+  const TitleRef = useRef(null);
   useEffect(() => {
     const timelineItems = gsap.utils.toArray('.MuiTimelineItem-root');
     
     gsap.set(timelineItems, { opacity: 0 }); // Initial state
+    
+    
 
     timelineItems.forEach((item) => {
+     
       gsap.to(item, {
         scrollTrigger: {
           trigger: item,
-          start: "-50% 50%", // Animation starts when item reaches 80% of viewport height
+          start: "-50% 80%", // Animation starts when item reaches 80% of viewport height
           end: "100% 50%",
           toggleActions: "play none none reverse",
           scrub: true,
-          markers:true,
         },
         opacity: 1,
         y: 0,
@@ -59,8 +66,9 @@ const Schedule = () => {
         ease: "power3.out",
        
       });
+     
     });
-
+  
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
@@ -71,13 +79,22 @@ const Schedule = () => {
 
 
 
-
   return (
-    
-    <Box sx={{ backgroundColor: 'none', borderRadius: 2, position:"absolute" , zIndex:"100" , top:"0" , width:"100vw" }}> {/* Dark blue background */}
+    <>
 
+    <Box sx={{ background: isMobile ? "radial-gradient(#6398ad,#060b3b )":'none', borderRadius: 2, position:"absolute" , zIndex:"100" , top:"0" , width: isMobile ? "100vw" : "70vw" }}> {/* Dark blue background */}
+      <h1 ref={TitleRef} style={{color:"#62EFFE",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
+            textShadow: "1px 1px 7px #62EFFE",
+            textAlign:"center",
+            position:"relative",
+            top:"20vh",
+            width: !isMobile ? "70vw" : "100vw",
+            fontFamily:"Overpass"}}
+            >Event Schedule</h1>
       <Timeline position="alternate">
-        <div style={{height:"50vh"}}></div>
+        <div style={{height:"40vh"}}></div>
         
         <TimelineItem>
           <TimelineOppositeContent>
@@ -209,7 +226,7 @@ const Schedule = () => {
 
         <TimelineItem>
           <TimelineOppositeContent>
-            <TimeTypography variant="body2">12:15 pm</TimeTypography>
+            <TimeTypography variant="body2">12:30 pm</TimeTypography>
           </TimelineOppositeContent>
           <TimelineSeparator>
             <DarkTimelineDot />
@@ -291,6 +308,7 @@ const Schedule = () => {
 
     </Box>
     
+        </>
   );
 };
 

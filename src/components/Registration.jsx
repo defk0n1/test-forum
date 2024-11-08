@@ -136,17 +136,20 @@ const RegistrationForm = (props) => {
 const styles = {
 
     container: {
-        backgroundColor: "#f0f8ff", // Light blue
+        backgroundColor: "#1e3a8a", // Light blue
         padding: "20px",
         borderRadius: "8px",
         maxWidth: "400px",
         margin: "auto",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         fontFamily:"Overpass",
-        // overflowY:"scroll"
+        // overflowY:"scroll",
+        maxHeight:"100vh",
+        
+        zIndex:"999999999"
     },
     header: {
-        color: "#1e3a8a", // Blue
+        color:"#62EFFE", // Blue
         textAlign: "center",
         marginBottom: "20px"
     },
@@ -158,20 +161,22 @@ const styles = {
         marginBottom: "15px"
     },
     label: {
-        color: "#1e3a8a",
+        color: "#FFFFFF",
         fontWeight: "bold",
-        marginBottom: "5px",
+        // marginBottom: "5px",
         display: "block"
     },
     input: {
-        padding: "8px",
+        padding: "8px 0",
         fontSize: "16px",
         borderRadius: "4px",
         border: "1px solid #1e3a8a",
-        outlineColor: "#ffd700" // Gold
+        outlineColor: "#ffd700",
+        width:"100%" // Gold
+        
     },
     select: {
-        padding: "8px",
+        padding: "4px",
         fontSize: "16px",
         borderRadius: "4px",
         border: "1px solid #1e3a8a",
@@ -180,13 +185,12 @@ const styles = {
     button: {
         padding: "10px",
         fontSize: "16px",
-        backgroundColor: "#1e3a8a",
-        color: "#ffffff",
+        backgroundColor: "#62EFFE",
+        color: "#FFFFFF",
         border: "none",
         borderRadius: "4px",
         cursor: "pointer",
         transition: "background-color 0.3s",
-        marginTop: "10px"
     },
     buttonHover: {
         backgroundColor: "#003366"
@@ -200,7 +204,7 @@ const styles = {
     closeButton: {
         padding: "10px",
         fontSize: "16px",
-        backgroundColor: "red",
+        backgroundColor: "black",
         color: "#ffffff",
         border: "none",
         borderRadius: "4px",

@@ -125,16 +125,19 @@ useEffect(() => {
     </mesh> */}
 
 
-    <mesh position={[0,-0.5,0]}>
+    <mesh position={[0,-0.51,0]}>
     <cylinderGeometry args={[0.3,0.3,0.01]} />
-    <FakeGlowMaterial falloff={1}
-    glowInternalRadius={0.1}
-    glowColor={"yellow"}
-    glowSharpness={1}
-    side={"THREE.BackSide"}
-    opacity={0.7}
-    depthTest={false}
-    ></FakeGlowMaterial>
+      {/* <FakeGlowMaterial falloff={1}
+      glowInternalRadius={0.1}
+      glowColor={"yellow"}
+      glowSharpness={1}
+      side={"THREE.BackSide"}
+      opacity={0.7}
+      depthTest={false}
+      ></FakeGlowMaterial> */}
+
+<meshBasicMaterial color={"yellow"}></meshBasicMaterial>
+
     </mesh>
     {/* <mesh position={[0,-3.5,0]}>
     <cylinderGeometry args={[0.7,0.7,6]} />

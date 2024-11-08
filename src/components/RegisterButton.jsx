@@ -29,7 +29,7 @@ const RegisterButton = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        style={{display:"flex" , flexDirection:"column" , justifyContent:"center"}}
+        style={{display:"flex" , flexDirection:"column" , justifyContent:"center",zIndex:"10001"}}
 
       >
       <RegistrationForm close={handleClose}></RegistrationForm>

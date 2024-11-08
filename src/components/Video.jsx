@@ -28,6 +28,15 @@ const VideoScreen  = forwardRef((props,ref) => {
     }
   },[videoPlaying])
 
+  useEffect(()=>{
+    if(props.cam == 4){
+      setVideoPlaying(true)
+    }
+
+
+
+  },[props.cam])
+
 
 
   const handleVidClick = (e) => {

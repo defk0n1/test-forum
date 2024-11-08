@@ -17,7 +17,7 @@ const LandingBody = ({camPosition}) => {
         color:"#F9E4BC",
         margin:"0",
         position:"relative",
-        top:"8vh"
+        top:"10vh"
 
     }
 
@@ -33,10 +33,10 @@ const LandingBody = ({camPosition}) => {
         {sponsor:false,title:"void",venue:false},
         {sponsor:false,content:"SecOps, unites IT security and operations teams to protect and manage an organization's digital assets. Its goal is to reduce cyber risks and minimize the impact of security incidents. SecOps integrates security into all operationalprocesses, such as network monitoring, incident response, threat detection, and vulnerability management. By fostering collaboration between teams, SecOps creates a more secure, efficient, and resilient environment.",title:"SecOps",titleStyle:titleStyling,venue:false} ,  
         {sponsor:false,content:"DevOps combines development (Dev) and operations (Ops), uniting people, processes, and technology to deliver continuous value. It fosters collaboration across traditionally siloed roles like development, IT operations, quality engineering, and security, resulting in faster, more reliable product delivery. This approach helps teams better meet customer needs, build confidence in their applications, and accelerate business outcomes.",title:"DevOps",titleStyle:titleStyling,venue:false},
-        {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLops",titleStyle:titleStyling,venue:false},
+        {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLOps",titleStyle:titleStyling,venue:false},
         {sponsor:false,title:"void",venue:false},
         {sponsor:false,title:"void",venue:false},
-        {sponsor:true,content:"",title:"Our Blue Sponsor",titleStyle:{
+        {sponsor:true,content:"",title:"Blue Diamond Sponsors",titleStyle:{
             color:"#62EFFE",
             WebkitBackgroundClip: 'text',
             filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
@@ -48,11 +48,11 @@ const LandingBody = ({camPosition}) => {
             fontFamily:"Overpass"
 
           },venue:false}, 
-        {sponsor:true,content:"",title:"Red Sponsors",titleStyle:{
+        {sponsor:true,content:"",title:"Red Diamond Sponsors",titleStyle:{
             color:"#FF0000",
             // WebkitBackgroundClip: 'text',
-            // filter: "drop-shadow(-10px 10px 20px #FF0000)", 
-            textShadow: "1px 1px 20px rgba(255, 0, 0, 0.5)",
+            filter: "drop-shadow(-10px 1px 20px rgba(255, 0, 0, 0.5))", 
+            textShadow: "1px 1px 20px rgba(255, 0, 0, 0.9)",
             textAlign:"center",
             position:"relative",
             top:"10vh",
@@ -139,10 +139,10 @@ const LandingBody = ({camPosition}) => {
         justifyContent:"space-evenly",
         textAlign:"center",
         color:"white" ,
-        height:"80vh",
+        height:"100vh",
         width:"40vw",
-        paddingTop:"10vh",
-        paddingBottom:"10vh",
+        // paddingTop:"10vh",
+        // paddingBottom:"10vh",
         paddingLeft:"15vw",
         paddingRight:"15vw",
         fontFamily: "Overpass",

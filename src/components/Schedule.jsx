@@ -89,7 +89,7 @@ const Schedule = () => {
             textShadow: "1px 1px 7px #62EFFE",
             textAlign:"center",
             position:"relative",
-            top:"20vh",
+            top:"30vh",
             width: !isMobile ? "70vw" : "100vw",
             fontFamily:"Overpass"}}
             >Event Schedule</h1>

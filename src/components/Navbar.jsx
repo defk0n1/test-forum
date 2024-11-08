@@ -41,7 +41,7 @@ const Navbar = ({camchanger}) => {
 
       
   return (
-    <div ref={navRef} style={{position:"fixed" , height:"10vh" , width:"100vw" , zIndex:"1000000000", top:"0"
+    <div ref={navRef} style={{position:"fixed" , height:"10vh" , width:"100vw" , zIndex:"1000", top:"0"
     }}>
       <div className='nav-wrapper'>
       <div className={menuOpen ? "nav-els-wrapper-mobile":"nav-els-wrapper"}>      

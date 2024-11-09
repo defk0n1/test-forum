@@ -57,7 +57,7 @@ useEffect(() => {
     if (props.pack == "blue"){
       return [2,0.75,AspectRatio]
     }else if (props.pack =="red") {
-      return [0.5,0.5,0.75*AspectRatio]
+      return [0.75,0.75,0.75*AspectRatio]
     }
     else return [1,0.5,0.75*AspectRatio]
 

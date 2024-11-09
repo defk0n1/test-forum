@@ -14,6 +14,7 @@ const VideoScreen  = forwardRef((props,ref) => {
     vid.crossOrigin = "Anonymous";
     vid.loop = true;
     vid.muted = false;
+    vid.setAttribute('playsinline', true)
     // vid.play();
     return vid;
   });
@@ -31,6 +32,9 @@ const VideoScreen  = forwardRef((props,ref) => {
   useEffect(()=>{
     if(props.cam == 4){
       setVideoPlaying(true)
+    }
+    else {
+      setVideoPlaying(false)
     }
 
 

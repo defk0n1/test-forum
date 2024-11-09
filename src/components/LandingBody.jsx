@@ -36,7 +36,7 @@ const LandingBody = ({camPosition}) => {
         {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLOps",titleStyle:titleStyling,venue:false},
         {sponsor:false,title:"void",venue:false},
         {sponsor:false,title:"void",venue:false},
-        {sponsor:true,content:"",title:"Blue Diamond Sponsors",titleStyle:{
+        {sponsor:true,content:"",title:"Blue Diamond Sponsor",titleStyle:{
             color:"#62EFFE",
             WebkitBackgroundClip: 'text',
             filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
@@ -95,20 +95,6 @@ const LandingBody = ({camPosition}) => {
 
 
           },venue:false},
-          {sponsor:true,content:"",title:"Workshop Mentors",titleStyle:{
-            color:"#62EFFE",
-            WebkitBackgroundClip: 'text',
-            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
-            textShadow: "1px 1px 7px #62EFFE",
-            textAlign:"center",
-            position:"relative",
-            top:"10vh",
-            width: isMobile ? "100vw"   : "70vw",
-            fontFamily:"Overpass"
-
-
-
-          },venue:false}   , 
           {sponsor:true,content:"",title:"Keynote Speakers",titleStyle:{
             color:"#62EFFE",
             WebkitBackgroundClip: 'text',
@@ -122,9 +108,24 @@ const LandingBody = ({camPosition}) => {
 
 
 
+          },venue:false}   , 
+          {sponsor:true,content:"",title:"Workshop Mentors",titleStyle:{
+            color:"#62EFFE",
+            WebkitBackgroundClip: 'text',
+            filter: "drop-shadow(-10px 1px 20px #FFFFFF)", 
+            textShadow: "1px 1px 7px #62EFFE",
+            textAlign:"center",
+            position:"relative",
+            top:"10vh",
+            width: isMobile ? "100vw"   : "70vw",
+            fontFamily:"Overpass"
+
+
+
           },venue:false} ,
+          {sponsor:false,title:"void",venue:false,schedule:true},
           {sponsor:false,venue:true,title:"void"},
-          {sponsor:false,title:"void",venue:false,schedule:true}
+
 
 
 

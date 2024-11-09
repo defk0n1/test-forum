@@ -12,9 +12,11 @@ const isMobile = window.innerWidth < 768
 const images = !isMobile ?
 [
   // Front
-  { position: [0, 0, 7] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
-  { position: [-1.8, 0, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/" },
-  { position: [1.8, 0, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+  { position: [1, 0.5, 6] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
+  { position: [-1, 0.5, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/" },
+  { position: [-1, -0.5, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+  { position: [1, -0.5, 6], url:"logos/silver/SJE.png",pack:"silver",link:"https://www.supcomje.in/" },
+
 
 
 ]
@@ -23,9 +25,10 @@ const images = !isMobile ?
 
 [
   // Front
-  { position: [0, -0.3, 7] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
-  { position: [-1, 0, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/"  },
-  { position: [1, 0, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+  { position: [1, 0.5, 6] , url: "logos/silver/Minotore.png",pack:"silver",link:"https://cognira.com/"},
+  { position: [-1, 0.5, 6], url:"logos/silver/Decade.png",pack:"silver",link:"https://www.decade.fr/" },
+  { position: [-1, -0.75, 6], url:"logos/silver/Target.png",pack:"silver",link:"https://www.pearls.consulting/" },
+  { position: [1, -0.75, 6], url:"logos/silver/SJE.png",pack:"silver",link:"https://www.supcomje.in/" },
 
 
 ]
@@ -70,6 +73,10 @@ const Sponsor = forwardRef((props,ref) => {
 
     }
     else
+    if(props.url == "logos/silver/SJE.png" ){
+      return [0.9,0.9,0.15*AspectRatio]
+
+    }
      return [0.4,0.4,0.75*AspectRatio]
 
   }
@@ -116,14 +123,15 @@ const Sponsor = forwardRef((props,ref) => {
   
     <mesh position={[0,-0.35,0]}>
     <cylinderGeometry args={[0.3,0.3,0.01]} />
-    <FakeGlowMaterial falloff={1}
+    {/* <FakeGlowMaterial falloff={1}
     glowInternalRadius={0.1}
     glowColor={"silver"}
     glowSharpness={0.5}
     side={"THREE.BackSide"}
     opacity={0.6}
     depthTest={false}
-    ></FakeGlowMaterial>
+    ></FakeGlowMaterial> */}
+    <meshBasicMaterial color={"silver"}></meshBasicMaterial>
     </mesh>
     {/* <mesh position={[0,-3.5,0]}>
     <cylinderGeometry args={[0.7,0.7,6]} />

@@ -255,8 +255,9 @@ const Scene = ({camPosition}) => {
     silverSponsorsRef,
     speakersRef,
     keynotesRef,
-    venueRef,
-    programRef ]
+    programRef,
+    venueRef ]  
+    
   const hideElts = ()=>{
     elementRefs.forEach(element => {
       element.current.visible = false; 
@@ -462,10 +463,11 @@ const Scene = ({camPosition}) => {
   <RedSponsors cam={camPosition}  ref={redSponsorsRef} position={[0,0.3,-80]}/>
   <GoldSponsors cam={camPosition}  ref={goldSponsorsRef} position={[0,0.3,-90]}/>
   <SilverSponsors cam={camPosition}  ref={silverSponsorsRef} position={[0,0.3,-100]}/>
-  <Speakers cam={camPosition}  ref={speakersRef} position={[0,0.3,-120]}/>
-  <Keynotes cam={camPosition}  ref={keynotesRef} position={[0,0.3,-130]}/>
-  <Venue cam={camPosition}  ref={venueRef} position={[0,0.3,-140]}/>
-  <Program cam={camPosition}  ref={programRef} position={[0,0.3,-160]}/>
+  <Speakers cam={camPosition}  ref={keynotesRef} position={[0,0.3,-120]}/>
+  <Keynotes cam={camPosition}  ref={speakersRef } position={[0,0.3,-130]}/>
+  <Program cam={camPosition}  ref={programRef} position={[0,0.3,-140]}/>
+  <Venue cam={camPosition}  ref={venueRef} position={[0,0.3,-160]}/>
+
 
 
   </>

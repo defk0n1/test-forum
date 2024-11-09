@@ -136,7 +136,7 @@ const Schedule = () => {
           <TimelineContent>
             <EventTypography variant="h6">Conference 1</EventTypography>
             <DescriptionTypography variant="body2">
-              Topic 1: DevOps - Towards a Seamless DevOps Pipeline
+              Topic 1: DevOps - From Reactive Integration to Proactive Production
             </DescriptionTypography>
             <DescriptionTypography variant="caption">
               Mrs. Sawsan SELMI

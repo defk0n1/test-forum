@@ -331,6 +331,8 @@ const Scene = ({camPosition}) => {
 
 
       state.camera.position.lerp(vec.set(0, 1, 16),.1)
+      state.camera.lookAt(vec.set(0, 1, 0))
+
       box1ref.current.position.set(
         7 * Math.cos(date)  * u.x + 3.5 * Math.sin(date) * 2 * v.x,
         7 * Math.cos(date)  * u.y + 3.5 * Math.sin(date) * 2 * v.y,

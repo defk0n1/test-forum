@@ -34,7 +34,7 @@ const LandingBody = ({camPosition}) => {
         {sponsor:false,content:"SecOps, unites IT security and operations teams to protect and manage an organization's digital assets. Its goal is to reduce cyber risks and minimize the impact of security incidents. SecOps integrates security into all operationalprocesses, such as network monitoring, incident response, threat detection, and vulnerability management. By fostering collaboration between teams, SecOps creates a more secure, efficient, and resilient environment.",title:"SecOps",titleStyle:titleStyling,venue:false} ,  
         {sponsor:false,content:"DevOps combines development (Dev) and operations (Ops), uniting people, processes, and technology to deliver continuous value. It fosters collaboration across traditionally siloed roles like development, IT operations, quality engineering, and security, resulting in faster, more reliable product delivery. This approach helps teams better meet customer needs, build confidence in their applications, and accelerate business outcomes.",title:"DevOps",titleStyle:titleStyling,venue:false},
         {sponsor:false,content:"Combines machine learning principles and operations practices to automate the entire lifecycle of machine learning models, from development to deployment and continuous monitoring and updates. This ensures reliability and quick updates or fixes, helping IT teams work together efficiently and enhancing the overall effectiveness of the machine learning process.",title:"MLOps",titleStyle:titleStyling,venue:false},
-        {sponsor:false,title:"void",venue:false},
+        {sponsor:false,title:"void",venue:false, video:true},
         {sponsor:false,title:"void",venue:false},
         {sponsor:true,content:"",title:"Blue Diamond Sponsor",titleStyle:{
             color:"#62EFFE",
@@ -174,11 +174,25 @@ const LandingBody = ({camPosition}) => {
 
 
     useGSAP(()=>{
-        if(currentContent.schedule){return;}
+        if(currentContent.schedule || currentContent.video){return;}
         gsap.from([TitleRef.current, SubRef.current], 
         {opacity: 0, stagger: 0.01})
     },[currentContent])
 
+
+    if(currentContent.video){
+        if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+        return(
+            <video playsInline width="80%" height="60%" crossOrigin="anonymous" loop muted controls style={{zIndex:"10000"}}>
+                <source src="Teaser.mp4" type='video/mp4'/>
+                 Your browser does not support the video tag.
+            </video>
+            
+        )
+    }
+    else return null
+
+    }
 
     // console.log(currentContent)
    

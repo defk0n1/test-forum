@@ -1,6 +1,5 @@
 
-import React, { useState , forwardRef} from "react";
-import { useEffect } from "react";
+import React, { useState , forwardRef , useEffect} from "react";
 
 import * as THREE from "three";
 
@@ -8,13 +7,18 @@ import * as THREE from "three";
 
 const VideoScreen  = forwardRef((props,ref) => {
 
+  const [isIos,setIsIos] = useState(null)
+
+
+ 
+
   const [video] = useState(() => {
     const vid = document.createElement("video");
     vid.src = "Teaser.mp4";
     vid.crossOrigin = "Anonymous";
     vid.loop = true;
     vid.muted = false;
-    vid.setAttribute('playsinline', true)
+    // vid.setAttribute('playsinline', true)
     // vid.play();
     return vid;
   });
@@ -42,6 +46,15 @@ const VideoScreen  = forwardRef((props,ref) => {
   },[props.cam])
 
 
+  useEffect(()=>{
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+setIsIos(true)}
+else {
+return;}
+  },[]
+)
+
+
 
   const handleVidClick = (e) => {
     if(props.cam !== 4){return;}
@@ -52,7 +65,17 @@ const VideoScreen  = forwardRef((props,ref) => {
     setVideoPlaying(!videoPlaying)
   }
 
-  return (
+
+
+  if(isIos){
+    return(
+      <video src="Teaser.mp4" crossOrigin="Anonymous" loop="true" muted="false" controls="true"></video>
+    )
+
+  }
+
+ else return (
+    
     <group >
       <mesh onClick={handleVidClick} rotation={[0, 0, 0]} position={[0, 0, -40]} ref={ref}>
         <planeGeometry args={[9.2, 5.9]} />

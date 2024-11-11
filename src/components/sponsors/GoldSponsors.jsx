@@ -40,7 +40,7 @@ const images = !isMobile ?
 const Sponsors = forwardRef((props , ref) => {
     return (
     <group ref={ref} position={props.position} >
-      {images.map((options) => <Sponsor cam={props.cam} key={props.url} {...options} /> /* prettier-ignore */)}
+      {images.map((options) => <Sponsor cam={props.cam} key={options.url} {...options} /> /* prettier-ignore */)}
     </group>
     
   )

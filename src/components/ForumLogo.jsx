@@ -175,4 +175,3 @@ export default forwardRef((props , ref) => {
 }
 )
 
-useGLTF.preload('/supcomlogo-v1.glb')

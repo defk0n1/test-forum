@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react' 
+import { useRef } from 'react' 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Schedule from './Schedule.jsx';
@@ -180,7 +180,7 @@ const LandingBody = ({camPosition}) => {
     },[currentContent])
 
 
-    console.log(currentContent)
+    // console.log(currentContent)
    
     if(currentContent.schedule){
         return(

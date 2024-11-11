@@ -2,14 +2,13 @@
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from 'three'
-import { color } from "three/webgpu";
 
 
 
 const isMobile = window.innerWidth < 768
 
 export default function HoloPuck(props) {
-  const { nodes, materials } = useGLTF("/holo-puck-transformed.glb");
+  const { nodes, materials } = useGLTF("holo-puck-transformed.glb");
 
   materials.Material.envMapIntensity = 0.8;
   materials.Material.emissiveIntensity = 0.3;

@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Schedule from './components/Schedule.jsx';
+;
 import Test from './components/Test.jsx';
 import Loading from './components/Loading.jsx';
 
@@ -29,16 +29,16 @@ useEffect(() => {
 
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element:  <Wrapper><Test/></Wrapper> ,
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element:  <Wrapper><Test/></Wrapper> ,
 
-  }
-]);
+//   }
+// ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-<RouterProvider router={router} />
-  </React.StrictMode>,
+<Wrapper><Test/></Wrapper>  
+</React.StrictMode>,
 )

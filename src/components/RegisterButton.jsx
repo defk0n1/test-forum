@@ -3,7 +3,6 @@ import RegistrationForm from "./Registration";
 import {useState , useRef} from "react"
 import { Modal } from "@mui/material";
 
-import gsap from "gsap";
 
 
 

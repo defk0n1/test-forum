@@ -4,8 +4,6 @@ import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Navbar from './Navbar.jsx';
-import RegisterButton from './RegisterButton.jsx';
 
 
 

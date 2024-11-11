@@ -25,7 +25,7 @@ import RegisterButton from './RegisterButton.jsx'
 
 import { MathUtils } from 'three';
 import Keynotes from './Keynotes.jsx'
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 
 
 const isMobile = window.innerWidth < 768
@@ -73,14 +73,14 @@ function ResizableCamera() {
 
 
 const Test = () => {
-  const location = useLocation();
-  const [currentPath, setCurrentPath] = useState(location.pathname);
+  // const location = useLocation();
+  // const [currentPath, setCurrentPath] = useState(location.pathname);
 
-  useEffect(() => {
-    // Set the currentPath state whenever the location changes
-    setCurrentPath(location.pathname);
-    // console.log(currentPath)
-  }, [location]);
+  // useEffect(() => {
+  //   // Set the currentPath state whenever the location changes
+  //   setCurrentPath(location.pathname);
+  //   // console.log(currentPath)
+  // }, [location]);
 
 
   const cameraFov = isMobile ? 90 : 50

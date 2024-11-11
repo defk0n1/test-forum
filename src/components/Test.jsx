@@ -79,7 +79,7 @@ const Test = () => {
   useEffect(() => {
     // Set the currentPath state whenever the location changes
     setCurrentPath(location.pathname);
-    console.log(currentPath)
+    // console.log(currentPath)
   }, [location]);
 
 

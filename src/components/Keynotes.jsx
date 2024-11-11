@@ -93,7 +93,7 @@ const Speaker = forwardRef((props,ref) => {
   }
 
   const handleSpeakerClick = (e,link) => {
-    console.log(props.cam)
+    // console.log(props.cam)
     if(props.cam !== 5){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 

@@ -14,7 +14,7 @@ const RegistrationForm = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("https://supcomje.in/forum/api/register", {
+            const response = await fetch("https://supcomje.in/forumdb/api/register", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",

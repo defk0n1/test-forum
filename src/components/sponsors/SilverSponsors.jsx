@@ -82,7 +82,7 @@ const Sponsor = forwardRef((props,ref) => {
   }
 
   const handleSponsorClick = (e,link) => {
-    console.log(props.cam)
+    // console.log(props.cam)
     if(props.cam !== 9){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 

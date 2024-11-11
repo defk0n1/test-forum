@@ -34,7 +34,7 @@ const Sponsors = forwardRef((props , ref) => {
 
 
 const Sponsor = forwardRef((props,ref) => {
-  console.log(props)
+  // console.log(props)
   const logoTexture = useTexture(props.url);
   const h = logoTexture.source.data.naturalHeight 
   const w = logoTexture.source.data.naturalWidth 
@@ -59,7 +59,7 @@ useEffect(() => {
   }
 
   const handleSponsorClick = (e,link) => {
-    console.log(props.cam)
+    // console.log(props.cam)
     if(props.cam !== 6){return;}
     e.stopPropagation()    
     window.open(link, '_blank', 'noopener')  } 
@@ -78,7 +78,7 @@ useEffect(() => {
   
     }
 
-  console.log(logoTexture)
+  // console.log(logoTexture)
   return (
     <mesh ref={ref} position={props.position}  >
     <sprite onPointerOver={() => setHovered(true)}

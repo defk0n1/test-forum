@@ -79,7 +79,7 @@ useEffect(() => {
 
     
     const handleSponsorClick = (e,link) => {
-      console.log(props.cam)
+      // console.log(props.cam)
       if(props.cam !== 7){return;}
       e.stopPropagation()    
       window.open(link, '_blank', 'noopener')  } 

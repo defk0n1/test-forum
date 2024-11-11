@@ -13,7 +13,7 @@ import FakeGlowMaterial from '../utils/FakeGlowMaterial.jsx'
 
 export default forwardRef((props , ref) => {
   const { nodes, materials } = useGLTF('logoforum1.glb')
-  console.log(nodes)
+  // console.log(nodes)
   const modelMaterial = nodes.Plane.material
   // const torus1ref = useRef()
   // const torus2ref = useRef()
